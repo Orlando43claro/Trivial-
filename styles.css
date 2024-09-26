@@ -11,7 +11,7 @@ body {
     max-width: 600px;
     margin: auto;
     padding: 20px;
-    background-color: rgba(255, 255, 255, 0.9); /* Fondo blanco semitransparente */
+    background-color: #001f3f; /* Fondo blanco semitransparente */
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
