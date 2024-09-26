@@ -11,13 +11,13 @@ body {
 }
 
 .container {
-    background-color: rgba(0, 0, 0, 0.7); /* Fondo semi-transparente */
+    background-color:  #001f3f; /* Fondo semi-transparente */
     padding: 30px;
     border-radius: 10px;
 }
 
 .icono {
-    width: 100px; /* Ajusta el tamaño del icono del juego */
+    width: 150px; /* Ajusta el tamaño del icono del juego */
     margin-bottom: 20px;
 }
 
