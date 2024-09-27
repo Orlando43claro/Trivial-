@@ -1,32 +1,29 @@
-const preguntas = [
-    { pregunta: "¿Cuál es la capital de Francia?", respuestas: ["Berlín", "Madrid", "París", "Roma"], correcta: 2 },
-    { pregunta: "¿Cuál es la capital de España?", respuestas: ["Lisboa", "Madrid", "París", "Roma"], correcta: 1 },
-    { pregunta: "¿Cuál es el océano más grande del mundo?", respuestas: ["Atlántico", "Índico", "Pacífico", "Ártico"], correcta: 2 },
-    { pregunta: "¿En qué año llegó el hombre a la Luna?", respuestas: ["1965", "1969", "1971", "1973"], correcta: 1 },
-    { pregunta: "¿Quién escribió 'Cien años de soledad'?", respuestas: ["Gabriel García Márquez", "Jorge Luis Borges", "Mario Vargas Llosa", "Pablo Neruda"], correcta: 0 },
-    { pregunta: "¿Cuál es el país más poblado del mundo?", respuestas: ["India", "Estados Unidos", "China", "Indonesia"], correcta: 2 },
-    { pregunta: "¿Qué elemento químico tiene el símbolo O?", respuestas: ["Oro", "Oxígeno", "Osmio", "Oganesón"], correcta: 1 },
-    { pregunta: "¿Qué planeta es conocido como el planeta rojo?", respuestas: ["Tierra", "Marte", "Júpiter", "Venus"], correcta: 1 },
-    { pregunta: "¿Quién pintó la 'Mona Lisa'?", respuestas: ["Vincent van Gogh", "Pablo Picasso", "Leonardo da Vinci", "Claude Monet"], correcta: 2 },
-    { pregunta: "¿Cuál es el continente más grande del mundo?", respuestas: ["Asia", "África", "América del Norte", "Antártida"], correcta: 0 },
-    { pregunta: "¿Qué gas es esencial para la respiración?", respuestas: ["Dióxido de carbono", "Nitrógeno", "Oxígeno", "Helio"], correcta: 2 },
-    { pregunta: "¿Cuál es el idioma más hablado en el mundo?", respuestas: ["Inglés", "Mandarín", "Español", "Hindi"], correcta: 1 },
-    { pregunta: "¿Qué es el ADN?", respuestas: ["Ácido Dextro Nucléico", "Ácido Desoxirribonucleico", "Ácido Duro Núcleo", "Ácido Dioxido Neutro"], correcta: 1 },
-    { pregunta: "¿Cuál es el libro más vendido en el mundo?", respuestas: ["El Quijote", "La Biblia", "Cien años de soledad", "Harry Potter"], correcta: 1 },
-    { pregunta: "¿Qué país tiene forma de bota?", respuestas: ["España", "Italia", "Grecia", "Portugal"], correcta: 1 },
-    { pregunta: "¿Quién fue el primer presidente de los Estados Unidos?", respuestas: ["George Washington", "Thomas Jefferson", "Abraham Lincoln", "John Adams"], correcta: 0 },
-];
-
 let puntos = 0;
 let tiempoRestante = 30;
 const temporizadorElement = document.getElementById('segundos');
+const opciones = document.querySelectorAll('.opcion');
+const preguntaElement = document.getElementById('pregunta');
+
+let preguntaActual = 0;
+let usoAcciones = {
+    "50-50": true,
+    "cambiar": true,
+    "ayuda": true
+};
+
+// Preguntas de ejemplo
+const preguntas = [
+    { pregunta: "¿Cuál es la capital de Francia?", respuestas: ["Berlín", "Madrid", "París", "Roma"], correcta: 2 },
+    { pregunta: "¿Cuál es la capital de España?", respuestas: ["Lisboa", "Madrid", "París", "Roma"], correcta: 1 }
+    // Agrega más preguntas aquí
+];
 
 const contarTiempo = () => {
     const intervalo = setInterval(() => {
         if (tiempoRestante <= 0) {
             clearInterval(intervalo);
             alert('Se acabó el tiempo!');
-            // Aquí puedes finalizar el juego o pasar a la siguiente pregunta.
+            // Finalizar el juego o pasar a la siguiente pregunta
         } else {
             tiempoRestante--;
             temporizadorElement.innerText = tiempoRestante;
@@ -34,5 +31,80 @@ const contarTiempo = () => {
     }, 1000);
 };
 
-// Llama a la función para iniciar el temporizador
+// Muestra la pregunta actual
+const mostrarPregunta = () => {
+    if (preguntaActual < preguntas.length) {
+        const pregunta = preguntas[preguntaActual];
+        preguntaElement.innerText = pregunta.pregunta;
+        opciones.forEach((boton, index) => {
+            boton.innerText = pregunta.respuestas[index];
+            boton.onclick = () => manejarRespuesta(index);
+        });
+        tiempoRestante = 30; // Reinicia el temporizador
+    } else {
+        alert('Has terminado el juego!');
+    }
+};
+
+// Maneja la respuesta seleccionada
+const manejarRespuesta = (index) => {
+    if (index === preguntas[preguntaActual].correcta) {
+        puntos += 10; // Ajusta la puntuación según lo necesites
+        alert('Respuesta correcta!');
+    } else {
+        alert('Respuesta incorrecta!');
+    }
+    preguntaActual++;
+    mostrarPregunta(); // Muestra la siguiente pregunta
+};
+
+// Función 50-50
+const usar50_50 = () => {
+    if (usoAcciones["50-50"]) {
+        const pregunta = preguntas[preguntaActual];
+        let respuestasIncorrectas = pregunta.respuestas.filter((_, index) => index !== pregunta.correcta);
+        let eliminar = respuestasIncorrectas[Math.floor(Math.random() * respuestasIncorrectas.length)];
+        
+        // Elimina una opción incorrecta
+        opciones.forEach((boton) => {
+            if (boton.innerText === eliminar) {
+                boton.style.display = 'none';
+            }
+        });
+        
+        usoAcciones["50-50"] = false; // Marca como usado
+    } else {
+        alert("Ya has usado la opción 50-50 en este nivel.");
+    }
+};
+
+// Cambiar pregunta
+const cambiarPregunta = () => {
+    if (usoAcciones["cambiar"]) {
+        preguntaActual++;
+        mostrarPregunta();
+        usoAcciones["cambiar"] = false; // Marca como usado
+    } else {
+        alert("Ya has usado la opción de cambiar pregunta en este nivel.");
+    }
+};
+
+// Ayuda
+const usarAyuda = () => {
+    if (usoAcciones["ayuda"]) {
+        const pregunta = preguntas[preguntaActual];
+        alert(`La respuesta correcta es: ${pregunta.respuestas[pregunta.correcta]}`);
+        usoAcciones["ayuda"] = false; // Marca como usado
+    } else {
+        alert("Ya has usado la opción de ayuda en este nivel.");
+    }
+};
+
+// Asignar funciones a botones de acciones
+document.getElementById('opcion-50-50').onclick = usar50_50;
+document.getElementById('opcion-cambiar').onclick = cambiarPregunta;
+document.getElementById('opcion-ayuda').onclick = usarAyuda;
+
+// Llama a la función para iniciar el juego
 contarTiempo();
+mostrarPregunta();
