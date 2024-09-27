@@ -90,3 +90,26 @@ body {
     background-color: #00ff00; /* Color de fondo al pasar el mouse */
     color: #000; /* Color del texto al pasar el mouse */
 }
+
+/* Estilos para las opciones */
+.opciones {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    width: 100%;
+}
+
+.opciones button {
+    padding: 10px;
+    background-color: #444;
+    color: white;
+    border: 2px solid #2ecc71;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    width: 30%;
+}
+
+.opciones button:hover {
+    background-color: #2ecc71;
+}
