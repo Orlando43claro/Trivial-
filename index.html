@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Juego de Memoria Infinita</title>
+    <title>Ascenso Mental</title>
     <style>
         * {
             box-sizing: border-box;
@@ -20,6 +20,7 @@
             align-items: center;
             padding: 20px;
             color: white;
+            position: relative; /* Necesario para posicionar el control de audio */
         }
         
         .container {
@@ -167,6 +168,35 @@
             transform: translateY(-2px);
         }
 
+        /* === ESTILOS DE CONTROL DE AUDIO === */
+        .audio-control {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 200; /* Asegura que esté por encima de todo */
+        }
+
+        .audio-control button {
+            background-color: rgba(0, 0, 0, 0.3);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.2s;
+        }
+
+        .audio-control button:hover {
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+        /* ==================================== */
+
         /* === ESTILOS DE EFECTO DE NIVEL === */
         .level-effect-overlay {
             position: absolute;
@@ -181,12 +211,12 @@
             z-index: 50;
             opacity: 0;
             transition: opacity 0.5s;
-            pointer-events: none; /* CLAVE: Permite clicks a través cuando está transparente */
+            pointer-events: none;
         }
 
         .level-effect-overlay.active {
             opacity: 1;
-            pointer-events: auto; /* Bloquea clicks cuando está activo */
+            pointer-events: auto; 
         }
         
         .brain-icon {
@@ -248,15 +278,22 @@
             .stat-value {
                 font-size: 1.2rem;
             }
+            .audio-control button {
+                width: 40px;
+                height: 40px;
+                font-size: 1.3rem;
+            }
         }
     </style>
 </head>
 <body>
     
-    <audio id="audioClick" src="primero.mp3"></audio>
+    <audio id="audioFondo" src="fondo.mp3" loop></audio> <audio id="audioClick" src="primero.mp3"></audio> <div class="audio-control">
+        <button id="toggle-music-btn">🔊</button>
+    </div>
 
     <div class="container">
-        <h1>🧠 Ascenso 🧠 Mental </h1>
+        <h2>🧠 Ascenso Mental 🧠</h2>
         
         <div class="stats">
             <div class="stat-box">
@@ -280,7 +317,7 @@
         </div>
 
         <div class="controls">
-            <button onclick="window.location.href='canje.html'">🏆 Canjear Premios</button>
+            <button onclick="window.location.href='go:canje1'">🏆 Canjear Premios</button>
         </div>
     </div>
 
@@ -294,8 +331,13 @@
         const scoreDisplay = document.getElementById('score');
         const scoreValueElement = document.getElementById('score').closest('.stat-value');
         const attemptsDisplay = document.getElementById('attempts');
-        const audioClick = document.getElementById('audioClick');
         const levelOverlay = document.getElementById('level-overlay');
+        
+        // AUDIO ELEMENTS
+        const audioFondo = document.getElementById('audioFondo');
+        const audioClick = document.getElementById('audioClick');
+        const toggleMusicBtn = document.getElementById('toggle-music-btn');
+        let isMusicPlaying = false; // Estado de la música de fondo
         
         const MAX_PAIRS = 28; 
         
@@ -322,12 +364,34 @@
         // === FUNCIONES DE AUDIO Y EFECTOS ===
         // ====================================================================
         
+        /**
+         * Reproduce el sonido de click de carta.
+         */
         function playSoundClick() {
             audioClick.pause();
             audioClick.currentTime = 0;
             audioClick.play().catch(e => console.warn("Error al reproducir el sonido de click:", e));
         }
 
+        /**
+         * Alterna la reproducción de la música de fondo y actualiza el ícono del botón.
+         */
+        function toggleBackgroundMusic() {
+            if (isMusicPlaying) {
+                audioFondo.pause();
+                toggleMusicBtn.textContent = '🔇'; // Ícono de silencio
+            } else {
+                audioFondo.volume = 0.4; // Volumen un poco bajo
+                audioFondo.play().catch(e => console.warn("Error al iniciar la música de fondo:", e));
+                toggleMusicBtn.textContent = '🔊'; // Ícono de sonido
+            }
+            isMusicPlaying = !isMusicPlaying; // Invierte el estado
+            localStorage.setItem('memoryGameMusicState', isMusicPlaying); // Guarda el estado
+        }
+
+        /**
+         * Aplica un efecto de "moneda" a la puntuación al ganar un punto.
+         */
         function animateScoreGain() {
             scoreValueElement.classList.add('score-boost');
             setTimeout(() => {
@@ -335,6 +399,9 @@
             }, 400); 
         }
 
+        /**
+         * Muestra el efecto de exploración/cerebro en el centro del tablero.
+         */
         function showLevelUpEffect() {
             levelOverlay.classList.add('active');
             
@@ -351,6 +418,7 @@
             const savedLevel = localStorage.getItem('memoryGameLevel');
             const savedScore = localStorage.getItem('memoryGameScore');
             const savedMatchedIndices = localStorage.getItem('memoryMatchedIndices');
+            const savedMusicState = localStorage.getItem('memoryGameMusicState'); // Carga el estado de la música
             
             if (savedLevel !== null) {
                 level = parseInt(savedLevel);
@@ -365,12 +433,25 @@
             } else {
                 matchedCardIndices = [];
             }
+
+            // Restaura el estado de la música
+            if (savedMusicState === 'true') {
+                isMusicPlaying = true;
+                audioFondo.volume = 0.4;
+                audioFondo.play().catch(e => console.warn("Autoplay bloqueado o error al iniciar música.", e));
+                toggleMusicBtn.textContent = '🔊';
+            } else {
+                isMusicPlaying = false;
+                audioFondo.pause();
+                toggleMusicBtn.textContent = '🔇';
+            }
         }
 
         function saveGameData() {
             localStorage.setItem('memoryGameLevel', level);
             localStorage.setItem('memoryGameScore', score);
             localStorage.setItem('memoryMatchedIndices', JSON.stringify(matchedCardIndices));
+            localStorage.setItem('memoryGameMusicState', isMusicPlaying); // Guarda el estado de la música
         }
 
         // ====================================================================
@@ -378,13 +459,11 @@
         // ====================================================================
 
         function clearGameBoardCards() {
-            // Elimina SÓLO las cartas, manteniendo el overlay intacto.
             const cards = gameBoard.querySelectorAll('.card');
             cards.forEach(card => card.remove());
         }
 
         function initGame() {
-            // CORRECCIÓN CLAVE: Limpia solo las cartas, NO todo el innerHTML.
             clearGameBoardCards(); 
 
             flippedCards = [];
@@ -451,7 +530,6 @@
                     card.addEventListener('click', () => flipCard(card));
                 }
                 
-                // Agrega la carta ANTES del overlay
                 gameBoard.insertBefore(card, levelOverlay);
             });
         }
@@ -520,7 +598,6 @@
         function levelUp(showScreen = true) {
             const oldLevel = level;
             
-            // Usamos canFlip = false para evitar clicks durante la animación del nivel.
             canFlip = false; 
             showLevelUpEffect(); 
             
@@ -533,14 +610,12 @@
             saveGameData(); 
 
             if (!showScreen) {
-                 canFlip = true; // Restaurar si no se muestra la pantalla de transición
+                 canFlip = true; 
                  initGame();
                  return;
             }
             
-            // Mostrar pantalla de nivel completado
             const levelUpScreen = document.createElement('div');
-            // ... (rest of levelUpScreen creation)
             let levelMessage;
             const currentPairsCount = Math.min(5 + (level - 1), MAX_PAIRS);
             
@@ -558,12 +633,11 @@
             
             document.body.appendChild(levelUpScreen);
             
-            // Desaparecer automáticamente y pasar al siguiente nivel
             setTimeout(() => {
                 if(document.body.contains(levelUpScreen)){
                     document.body.removeChild(levelUpScreen);
                 }
-                canFlip = true; // Restaurar después de la transición
+                canFlip = true;
                 initGame();
             }, 2500);
         }
@@ -578,9 +652,25 @@
             return newArray;
         }
         
+        // ====================================================================
+        // === INICIO DEL JUEGO Y EVENT LISTENERS ===
+        // ====================================================================
+
+        // Evento para el botón de alternancia de música
+        toggleMusicBtn.addEventListener('click', toggleBackgroundMusic);
+
+        // Evento para detener la música al salir/cerrar la web app
+        window.addEventListener('beforeunload', () => {
+            if (isMusicPlaying) {
+                audioFondo.pause();
+                audioFondo.currentTime = 0; 
+            }
+            localStorage.setItem('memoryGameMusicState', false); // Asegura que se guarde como apagada al salir
+        });
+
         // Proceso de inicio
         window.addEventListener('load', () => {
-            loadGameData();
+            loadGameData(); // Carga los datos y el estado de la música
             initGame();
         });
     </script>
