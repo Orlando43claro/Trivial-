@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canje de Dinero - Nequi</title>
+    <style>
+        /* Estilo base del juego */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'arial', sans-serif;
+        }
+        
+        body {
+            /* Mismo estilo de fondo que el juego principal */
+            background: linear-gradient(135deg, #2575fc 0%, #6a11cb 100%); 
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            color: white;
+        }
+        
+        .container {
+            max-width: 900px; /* Aumentado para la grid de premios */
+            width: 100%;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        #score-display {
+            font-size: 1.8rem;
+            margin-bottom: 30px;
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: 10px 20px;
+            border-radius: 10px;
+        }
+
+        .premios-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); /* Grid responsiva */
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .premio-card {
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 2px solid #ffeb3b;
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            transition: transform 0.2s;
+        }
+
+        .premio-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .premio-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+            color: #ffeb3b;
+            font-weight: bold;
+        }
+
+        .premio-card p {
+            font-size: 1rem;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+
+        .premio-card button {
+            background-color: #4caf50; 
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            font-size: 0.9rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-weight: bold;
+            width: 100%; /* Botón de ancho completo */
+        }
+        
+        .premio-card button:hover {
+            background-color: #388e3c;
+        }
+
+        .premio-card button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        .back-button {
+            margin-top: 30px;
+            background-color: #ff4081;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            font-size: 1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .back-button:hover {
+            background-color: #f50057;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Centro de Canje de Dinero 💰</h1>
+        
+        <div id="score-display">Puntos Disponibles: <span id="current-score">0</span></div>
+
+        <div class="premios-grid" id="premios-grid">
+            </div>
+
+        <button class="back-button" onclick="window.location.href='index.html'">Volver al Juego</button>
+    </div>
+
+    <script>
+        // Definición de todos los premios
+        const premios = [
+            { costo: 1000, valor: "COP $10.000" },
+            { costo: 1500, valor: "COP $15.000" },
+            { costo: 2000, valor: "COP $20.000" },
+            { costo: 2500, valor: "COP $25.000" },
+            { costo: 3000, valor: "COP $30.000" },
+            { costo: 4000, valor: "COP $40.000" },
+            { costo: 5000, valor: "COP $50.000" },
+            { costo: 10000, valor: "COP $100.000" },
+            { costo: 15000, valor: "COP $150.000" },
+            { costo: 20000, valor: "COP $200.000" }
+        ];
+
+        const whatsappNumber = "+573155445183";
+
+        let currentScore = 0;
+        const currentScoreElement = document.getElementById('current-score');
+        const premiosGrid = document.getElementById('premios-grid');
+
+        function loadScore() {
+            const savedScore = localStorage.getItem('memoryGameScore');
+            currentScore = savedScore !== null ? parseInt(savedScore) : 0;
+            currentScoreElement.textContent = currentScore;
+        }
+
+        function saveNewScore(newScore) {
+            localStorage.setItem('memoryGameScore', newScore);
+            currentScore = newScore;
+            currentScoreElement.textContent = newScore;
+        }
+
+        function canjearPremio(premioCosto, premioValor) {
+            if (currentScore >= premioCosto) {
+                
+                if (confirm(`Estás a punto de canjear ${premioCosto} puntos por ${premioValor} vía Nequi. ¿Confirmas la operación?`)) {
+                    
+                    const newScore = currentScore - premioCosto;
+                    
+                    // 1. Guardar la nueva puntuación
+                    saveNewScore(newScore);
+
+                    // 2. Generar mensaje de WhatsApp
+                    const mensaje = encodeURIComponent(
+                        `¡Hola! Quiero canjear mi premio de ${premioValor}. He restado ${premioCosto} puntos de mi cuenta. Mi puntuación restante es ${newScore}. Por favor, indícame cómo proceder con la consignación a mi Nequi.`
+                    );
+                    
+                    const whatsappURL = `https://wa.me/${whatsappNumber.replace('+', '')}?text=${mensaje}`;
+                    
+                    alert(`¡Canje exitoso! Se restaron ${premioCosto} puntos. Se abrirá una nueva ventana para enviar el WhatsApp y coordinar la consignación.`);
+                    
+                    // 3. Abrir WhatsApp en nueva pestaña/ventana
+                    window.open(whatsappURL, '_blank');
+
+                    // 4. Re-renderizar para actualizar los botones
+                    renderPremios(); 
+                }
+            } else {
+                alert(`¡Puntos insuficientes! Necesitas ${premioCosto} puntos para canjear ${premioValor}.`);
+            }
+        }
+
+        function renderPremios() {
+            premiosGrid.innerHTML = '';
+            
+            premios.forEach(premio => {
+                const isAffordable = currentScore >= premio.costo;
+                const card = document.createElement('div');
+                card.classList.add('premio-card');
+                
+                card.innerHTML = `
+                    <h3>${premio.valor}</h3>
+                    <p>Costo: ${premio.costo} Puntos</p>
+                    <button 
+                        onclick="canjearPremio(${premio.costo}, '${premio.valor}')" 
+                        ${!isAffordable ? 'disabled' : ''}
+                    >
+                        ${!isAffordable ? 'Puntos Insuficientes' : 'Canjear y Contactar'}
+                    </button>
+                `;
+                premiosGrid.appendChild(card);
+            });
+        }
+
+        // Cargar datos al iniciar la página de premios
+        window.addEventListener('load', () => {
+            loadScore();
+            renderPremios();
+        });
+    </script>
+</body>
+</html>
