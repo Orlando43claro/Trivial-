@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Política de Privacidad - Ascenso Mental</title>
+    <style>
+        /* Estilos base copiados de index.html */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'arial', sans-serif;
+        }
+        
+        body {
+            /* Mismo fondo degradado que index.html */
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            color: white;
+        }
+        
+        .container {
+            max-width: 800px;
+            width: 100%;
+            text-align: left; /* Alineación de texto normal para lectura */
+            background-color: rgba(255, 255, 255, 0.15); /* Fondo semitransparente para legibilidad */
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 5px;
+            color: #ffeb3b; /* Color brillante para el título */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            color: #f50057; /* Color de acento */
+            border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+            padding-bottom: 5px;
+        }
+        
+        p, ul {
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        ul {
+            margin-left: 20px;
+        }
+
+        /* Estilo para el botón de regreso */
+        .controls {
+            margin-top: 25px;
+            text-align: center;
+        }
+        
+        .controls button {
+            background-color: #ff4081;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            font-size: 1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            font-weight: bold;
+        }
+        
+        .controls button:hover {
+            background-color: #f50057;
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Política de Privacidad</h1>
+        <p><strong>Vigente a partir de:</strong> 7 de octubre de 2025</p>
+        
+        <p>Esta Política de Privacidad describe cómo "Ascenso Mental" (en adelante, "la Aplicación" o "nosotros") recopila, utiliza y protege la información del usuario.</p>
+        
+        <h2>1. Recolección y Uso de la Información</h2>
+        <p>La Aplicación "Ascenso Mental" está diseñada como una aplicación web de un solo usuario que se ejecuta **localmente** en su dispositivo.</p>
+        <p><strong>No recopilamos, almacenamos ni transmitimos datos personales o de identificación (como nombre, correo electrónico, ubicación o información del dispositivo) a ningún servidor externo o a terceros.</strong></p>
+
+        <h3>1.1 Información Almacenada Localmente</h3>
+        <p>La Aplicación almacena la siguiente información exclusivamente en el **almacenamiento local (LocalStorage)** de su navegador web o dispositivo, con el único fin de mantener su progreso en el juego:</p>
+        <ul>
+            <li><strong>Puntuación del Juego:</strong> Los puntos que usted gana para canjear premios.</li>
+            <li><strong>Nivel Actual:</strong> La dificultad a la que está jugando.</li>
+            <li><strong>Progreso del Nivel:</strong> El estado del tablero y las cartas ya emparejadas para que pueda continuar el juego donde lo dejó.</li>
+            <li><strong>Preferencias de Audio:</strong> Si la música de fondo está activada o desactivada.</li>
+        </ul>
+        <p><strong>Toda esta información es anónima y no se comparte con nadie fuera de su dispositivo.</strong></p>
+
+        <h2>2. Eliminación de Datos</h2>
+        <p>Usted tiene el control total sobre los datos almacenados. Dado que la información se almacena localmente en su navegador:</p>
+        <ul>
+            <li><strong>Para Borrar sus Datos:</strong> Simplemente debe borrar los datos del sitio web o la caché del navegador. Esto restablecerá su puntuación, nivel y progreso a cero.</li>
+            <li><strong>La Aplicación no tiene forma remota de acceder o borrar sus datos.</strong></li>
+        </ul>
+
+        <h2>3. Servicios de Terceros</h2>
+        <p>La Aplicación es un proyecto independiente y no utiliza servicios de terceros para análisis, publicidad, o recopilación de datos.</p>
+        <p>El enlace a la página de Canje (<code>canje.html</code>) apunta a otra página dentro de la misma aplicación, por lo que no constituye un enlace a un servicio de terceros externo.</p>
+
+        <h2>4. Cambios en esta Política de Privacidad</h2>
+        <p>Nos reservamos el derecho de actualizar esta Política de Privacidad en cualquier momento. Si realizamos cambios materiales, la fecha de "Vigencia a partir de" será actualizada. Al continuar usando la Aplicación, usted acepta la Política de Privacidad más reciente.</p>
+
+        <h2>5. Contacto</h2>
+        <p>Si tiene preguntas sobre esta Política de Privacidad o las prácticas de datos de la Aplicación, por favor consulte con el desarrollador.</p>
+        
+        <div class="controls">
+            <button onclick="window.history.back()">Volver al Juego</button>
+        </div>
+    </div>
+</body>
+</html>
