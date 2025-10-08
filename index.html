@@ -14,6 +14,7 @@
       gtag('config', 'TU_ID_DE_MEDICION');
     </script>
     <style>
+        /* Estilos globales y de cuerpo se mantienen */
         * {
             box-sizing: border-box;
             margin: 0;
@@ -50,7 +51,7 @@
             background-color: rgba(255, 255, 255, 0.2);
             border-radius: 10px;
             padding: 10px;
-            margin: 20px 0;
+            margin: 20px 0 10px; 
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             position: relative;
         }
@@ -71,7 +72,41 @@
             transition: transform 0.2s;
         }
         
-        /* === ESTILOS DE ANIMACI聛0藛7N DE PUNTOS === */
+        /* === ESTILOS DE BARRA DE PROGRESO === */
+        #progress-bar-container {
+            width: 100%;
+            max-width: 900px;
+            height: 25px;
+            background-color: rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        #progress-bar {
+            height: 100%;
+            width: 0%;
+            background-color: #00e676; 
+            transition: width 0.5s ease-in-out;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #progress-text {
+            color: white;
+            font-size: 0.9rem; 
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+            position: absolute;
+            width: 100%;
+            text-align: center;
+        }
+        /* ==================================== */
+
+        /* Estilos de animación de puntos, juego, y cartas se mantienen */
         .score-boost {
             animation: score-jump 0.4s ease-out;
         }
@@ -81,7 +116,6 @@
             50% { transform: scale(1.3) translateY(-5px); }
             100% { transform: scale(1); }
         }
-        /* ==================================== */
 
         .game-board {
             display: grid;
@@ -92,6 +126,16 @@
             background-color: rgba(255, 255, 255, 0.1);
             border-radius: 10px;
             position: relative;
+        }
+        
+        .card.fail-match {
+            animation: card-shake 0.4s;
+        }
+
+        @keyframes card-shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-5px); }
+            40%, 80% { transform: translateX(5px); }
         }
         
         .card {
@@ -154,11 +198,11 @@
             cursor: default;
         }
 
+        /* ESTILOS CLAVE: Alineación horizontal y tamaño de letra pequeña */
         .controls {
             margin-top: 15px;
-            /* CAMBIO: Usar Flexbox para alinear botones horizontalmente */
             display: flex;
-            justify-content: center; 
+            justify-content: center; /* Alinea horizontalmente al centro */
             gap: 15px; 
         }
         
@@ -166,14 +210,14 @@
             background-color: #ff4081;
             color: white;
             border: none;
-            padding: 12px 25px;
-            font-size: 1rem;
+            padding: 10px 20px; 
+            font-size: 0.9rem; /* Letra más pequeña */
             border-radius: 50px;
             cursor: pointer;
             transition: all 0.3s;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             font-weight: bold;
-            margin: 0; /* Aseguramos que el margin horizontal se controle por 'gap' */
+            margin: 0;
         }
         
         .controls button:hover:not(:disabled) {
@@ -187,7 +231,7 @@
             opacity: 0.7;
         }
 
-        /* === ESTILOS DE CONTROL DE AUDIO === */
+        /* Estilos de control de audio se mantienen */
         .audio-control {
             position: fixed;
             top: 20px;
@@ -214,15 +258,12 @@
         .audio-control button:hover {
             background-color: rgba(0, 0, 0, 0.5);
         }
-        /* ==================================== */
-
-        /* === ESTILOS DE EFECTO DE NIVEL === */
-        /* El overlay original se mantiene para otros efectos, pero su funcionalidad de LEVEL-UP se mueve al .level-up */
+        
+        /* Estilos de Level Up se mantienen */
         .level-effect-overlay {
-            display: none; /* Ocultamos el overlay original, ya no se usa para LevelUp */
+            display: none; 
         }
         
-        /* ESTILOS CLAVE PARA EL ICONO DEL CEREBRO ANIMADO */
         .brain-icon {
             font-size: 6rem;
             animation: brain-float 1.5s infinite alternate ease-in-out, 
@@ -240,21 +281,40 @@
             0% { transform: scale(0); }
             100% { transform: scale(1); }
         }
-        /* ==================================== */
-
+        
         .level-up {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.9); /* Un poco m篓垄s oscuro */
+            background-color: rgba(0, 0, 0, 0.95);
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             z-index: 100;
             text-align: center;
+            opacity: 0;
+            animation: level-up-fade 0.5s forwards;
+        }
+
+        @keyframes level-up-fade {
+            to { opacity: 1; }
+        }
+
+        .level-up .reward {
+            font-size: 1.3rem;
+            color: #00e676;
+            font-weight: bold;
+            margin: 10px 0;
+            animation: reward-pulse 1.5s infinite;
+        }
+
+        @keyframes reward-pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+            100% { transform: scale(1); opacity: 1; }
         }
         
         .level-up h2 {
@@ -269,7 +329,7 @@
             margin-bottom: 10px;
         }
         
-        /* Responsive adjustments */
+        /* Responsive adjustments se mantienen */
         @media (max-width: 480px) {
             .card {
                 height: 60px;
@@ -289,9 +349,16 @@
                 height: 40px;
                 font-size: 1.3rem;
             }
+            /* En móvil, los botones vuelven a alineación vertical por diseño responsive */
             .controls {
                 flex-direction: column;
                 gap: 10px;
+            }
+            .controls button { 
+                font-size: 0.8rem; 
+            }
+            #progress-text {
+                font-size: 0.7rem;
             }
         }
     </style>
@@ -302,12 +369,14 @@
 
     <audio id="audioFondo" src="fondo.mp3" loop></audio> 
     <audio id="audioClick" src="primero.mp3"></audio> 
+    <audio id="audioLevelUp" src="nivel.mp3"></audio> 
+
     <div class="audio-control">
-        <button id="toggle-music-btn">馃攰</button>
+        <button id="toggle-music-btn">🔊</button>
     </div>
 
     <div class="container">
-        <h2>馃 Ascenso Mental 馃</h2>
+        <h2>🧠 Ascenso Mental 🧠</h2>
         
         <div class="stats">
             <div class="stat-box">
@@ -315,7 +384,7 @@
                 <div class="stat-value" id="level">1</div>
             </div>
             <div class="stat-box">
-                <div class="stat-label">Puntuaci贸n</div>
+                <div class="stat-label">Puntuación</div>
                 <div class="stat-value" id="score">0</div>
             </div>
             <div class="stat-box">
@@ -326,28 +395,33 @@
                 <div class="stat-label">Comodines</div>
                 <div class="stat-value" id="wildcards">0</div>
             </div>
+        </div>
+
+        <div id="progress-bar-container">
+            <div id="progress-bar">
+                <span id="progress-text">0 / 10 Parejas</span>
             </div>
-        
+        </div>
         <div class="game-board" id="game-board">
              <div class="level-effect-overlay" id="level-overlay">
-                <span class="brain-icon">馃</span>
+                <span class="brain-icon">🧠</span>
             </div>
         </div>
 
         <div class="controls">
-            <button id="wildcard-btn" onclick="useWildcard()">鉁� Usar Comod铆n</button> 
-            <button onclick="window.location.href='canje.html'">馃弳 Canjear Premios</button>
+            <button id="wildcard-btn" onclick="useWildcard()">✨ Usar Comodín</button> 
+            <button onclick="window.location.href='canje.html'">🏆 Canjear Premios</button>
         </div>
     </div>
 
   <div style="margin-top: 30px; font-size: 0.9rem;">
-    <a href="privacidad.html" style="color: #ffeb3b; text-decoration: none;">Pol铆ticas de Privacidad</a>
+    <a href="privacidad.html" style="color: #ffeb3b; text-decoration: none;">Políticas de Privacidad</a>
 </div>
 
     
     <script>
         // ====================================================================
-        // === CONFIGURACI脫N Y VARIABLES ===
+        // === CONFIGURACIÓN Y VARIABLES ===
         // ====================================================================
         
         const gameBoard = document.getElementById('game-board');
@@ -355,14 +429,18 @@
         const scoreDisplay = document.getElementById('score');
         const scoreValueElement = document.getElementById('score').closest('.stat-value');
         const attemptsDisplay = document.getElementById('attempts');
-        const levelOverlay = document.getElementById('level-overlay'); // Se mantiene pero est篓垄 oculto en CSS
+        const levelOverlay = document.getElementById('level-overlay');
         const wildcardDisplay = document.getElementById('wildcards'); 
         const wildcardBtn = document.getElementById('wildcard-btn'); 
         const feedbackMessage = document.getElementById('feedback-message'); 
+
+        const progressBar = document.getElementById('progress-bar');
+        const progressText = document.getElementById('progress-text');
         
         // AUDIO ELEMENTS
         const audioFondo = document.getElementById('audioFondo');
         const audioClick = document.getElementById('audioClick');
+        const audioLevelUp = document.getElementById('audioLevelUp'); 
         const toggleMusicBtn = document.getElementById('toggle-music-btn');
         let isMusicPlaying = false; 
         
@@ -376,16 +454,16 @@
         let matchedPairs = 0;
         let canFlip = true;
         let matchedCardIndices = []; 
+        let totalPairsInLevel = 0; 
 
         const allSymbols = [
-
-            '馃', '馃惐', '馃惡', '馃', '馃惏', '馃惗', '馃惢', '馃惣', '馃惃', '馃惎', 
-            '馃', '馃惍', '馃惙', '馃惛', '馃惖', '馃悢', '馃惂', '馃', '馃', '馃', 
-            '馃', '馃悰', '馃悵', '馃悶', '馃悹', '馃惓', '馃惉', '馃悽', '馃悕', '馃悐', 
-            '馃嚘馃嚪', '馃嚙馃嚪', '馃嚚馃嚤', '馃嚚馃嚧', '馃嚜馃嚫', '馃嚝馃嚪', '馃嚞馃嚙', '馃嚠馃嚬', '馃嚡馃嚨', '馃嚥馃嚱', 
-            '馃嚭馃嚫', '馃嚚馃嚘', '馃嚛馃嚜', '馃嚚馃嚦', '馃嚠馃嚦', '馃嚨馃嚜', '馃嚨馃嚬', '馃嚪馃嚭', '馃嚢馃嚪', '馃嚳馃嚘', 
-            '馃殫', '馃殨', '馃殞', '馃弾锔�', '馃殦', '馃殤', '馃殥', '馃殮', '馃殰', '馃浀', 
-            '馃毑', '馃殺', '鉁堬笍', '馃殌', '馃殎', '馃殏', '馃殑', '馃殕', '馃殗', '馃殐' 
+            '🦊', '🐱', '🐺', '🦄', '🐰', '🐶', '🐻', '🐼', '🐨', '🐯', 
+            '🦁', '🐮', '🐷', '🐸', '🐵', '🐔', '🐧', '🦅', '🦉', '🦆', 
+            '🦋', '🐛', '🐝', '🐞', '🐠', '🐳', '🐬', '🐢', '🐍', '🐊', 
+            '🇦🇷', '🇧🇷', '🇨🇱', '🇨🇴', '🇪🇸', '🇫🇷', '🇬🇧', '🇮🇹', '🇯🇵', '🇲🇽', 
+            '🇺🇸', '🇨🇦', '🇩🇪', '🇨🇳', '🇮🇳', '🇵🇪', '🇵🇹', '🇷🇺', '🇰🇷', '🇿🇦', 
+            '🚗', '🚕', '🚌', '🏎️', '🚓', '🚑', '🚒', '🚚', '🚜', '🛵', 
+            '🚲', '🚢', '✈️', '🚀', '🚁', '🚂', '🚄', '🚆', '🚇', '🚃' 
         ];
 
 
@@ -393,34 +471,31 @@
         // === FUNCIONES DE AUDIO Y EFECTOS ===
         // ====================================================================
         
-        /**
-         * Reproduce el sonido de click de carta.
-         */
         function playSoundClick() {
             audioClick.pause();
             audioClick.currentTime = 0;
             audioClick.play().catch(e => console.warn("Error al reproducir el sonido de click:", e));
         }
 
-        /**
-         * Alterna la reproducci贸n de la m煤sica de fondo y actualiza el 篓陋cono del bot贸n.
-         */
+        function playSoundLevelUp() {
+            audioLevelUp.pause();
+            audioLevelUp.currentTime = 0;
+            audioLevelUp.play().catch(e => console.warn("Error al reproducir el sonido de level up:", e));
+        }
+
         function toggleBackgroundMusic() {
             if (isMusicPlaying) {
                 audioFondo.pause();
-                toggleMusicBtn.textContent = '馃攬'; 
+                toggleMusicBtn.textContent = '🔈'; 
             } else {
                 audioFondo.volume = 0.4; 
-                audioFondo.play().catch(e => console.warn("Error al iniciar la m篓虏sica de fondo:", e));
-                toggleMusicBtn.textContent = '馃攰'; 
+                audioFondo.play().catch(e => console.warn("Error al iniciar la música de fondo:", e));
+                toggleMusicBtn.textContent = '🔊'; 
             }
             isMusicPlaying = !isMusicPlaying; 
             localStorage.setItem('memoryGameMusicState', isMusicPlaying); 
         }
 
-        /**
-         * Aplica un efecto de "moneda" a la puntuaci贸n al ganar un punto.
-         */
         function animateScoreGain() {
             scoreValueElement.classList.add('score-boost');
             setTimeout(() => {
@@ -428,16 +503,18 @@
             }, 400); 
         }
 
-        /**
-         * Muestra un mensaje temporal de feedback.
-         */
         function showFeedback(message, type) {
             feedbackMessage.textContent = message;
             
             if (type === 'match') {
-                feedbackMessage.style.backgroundColor = 'rgba(76, 175, 80, 0.8)'; // Verde
+                feedbackMessage.style.backgroundColor = 'rgba(76, 175, 80, 0.8)';
+                feedbackMessage.style.color = 'white';
             } else if (type === 'fail') {
-                feedbackMessage.style.backgroundColor = 'rgba(244, 67, 54, 0.8)'; // Rojo
+                feedbackMessage.style.backgroundColor = 'rgba(244, 67, 54, 0.8)';
+                feedbackMessage.style.color = 'white';
+            } else if (type === 'wildcard') {
+                feedbackMessage.style.backgroundColor = 'rgba(255, 235, 59, 0.8)';
+                feedbackMessage.style.color = 'black';
             }
             
             feedbackMessage.style.opacity = '1';
@@ -449,6 +526,11 @@
             }, 1000); 
         }
 
+        function updateProgressBar() {
+            const percentage = (matchedPairs / totalPairsInLevel) * 100;
+            progressBar.style.width = `${percentage}%`;
+            progressText.textContent = `${matchedPairs} / ${totalPairsInLevel} Parejas`;
+        }
 
         // ====================================================================
         // === ALMACENAMIENTO LOCAL ===
@@ -484,15 +566,14 @@
                 matchedCardIndices = [];
             }
 
-            // Restaura el estado de la musica
             if (savedMusicState === 'true') {
                 isMusicPlaying = true;
                 audioFondo.volume = 0.4;
-                toggleMusicBtn.textContent = '鈥濔煍�';
+                toggleMusicBtn.textContent = '🔊';
             } else {
                 isMusicPlaying = false;
                 audioFondo.pause();
-                toggleMusicBtn.textContent = '馃攬';
+                toggleMusicBtn.textContent = '🔈';
             }
         }
 
@@ -520,23 +601,22 @@
             flippedCards = [];
             
             const pairsCount = Math.min(5 + (level - 1), MAX_PAIRS); 
+            totalPairsInLevel = pairsCount; 
             
             matchedPairs = matchedCardIndices.length / 2;
             const totalCards = pairsCount * 2;
             
-            if (matchedPairs === pairsCount) {
+            if (matchedPairs === totalPairsInLevel) {
                 levelUp(false);
                 return;
             }
 
-            // Si se carga un nuevo layout, se reinician los intentos
             if (localStorage.getItem('memoryCardLayout') === null || JSON.parse(localStorage.getItem('memoryCardLayout')).length !== totalCards) {
                  attempts = 0;
             }
             
             attemptsDisplay.textContent = attempts;
             
-            // --- Logica de Selecci贸n de S铆mbolos ---
             let levelSymbols;
             const currentMaxPairs = Math.min(5 + (level - 1), MAX_PAIRS);
 
@@ -562,7 +642,6 @@
             const columns = Math.min(Math.ceil(Math.sqrt(totalCards)), 8);
             gameBoard.style.gridTemplateColumns = `repeat(${columns}, 1fr)`;
             
-            // Renderiza las cartas
             currentLayout.forEach((symbol, index) => {
                 const card = document.createElement('div');
                 card.classList.add('card');
@@ -588,8 +667,8 @@
                 gameBoard.insertBefore(card, levelOverlay);
             });
             
-            // Habilitar/Deshabilitar bot贸n de comod铆n al inicio
             wildcardBtn.disabled = (wildcards <= 0);
+            updateProgressBar(); 
         }
         
         function flipCard(card) {
@@ -616,7 +695,10 @@
                     // Coinciden (Pareja)
                     setTimeout(() => {
                         
-                        showFeedback("隆Pareja!", 'match'); 
+                        showFeedback("¡Pareja!", 'match'); 
+                        
+                        flippedCards[0].classList.remove('fail-match');
+                        flippedCards[1].classList.remove('fail-match');
                         
                         flippedCards[0].classList.add('matched');
                         flippedCards[1].classList.add('matched');
@@ -628,6 +710,7 @@
                         flippedCards[1].querySelector('.card-back').style.backgroundColor = '#4caf50';
                         
                         matchedPairs++;
+                        updateProgressBar(); 
                         
                         score += 1; 
                         scoreDisplay.textContent = score;
@@ -637,8 +720,7 @@
                         flippedCards[0].removeEventListener('click', flipCard);
                         flippedCards[1].removeEventListener('click', flipCard);
                         
-                        const currentPairsCount = Math.min(5 + (level - 1), MAX_PAIRS);
-                        if (matchedPairs === currentPairsCount) {
+                        if (matchedPairs === totalPairsInLevel) {
                             setTimeout(levelUp, 800);
                         }
                         
@@ -650,22 +732,27 @@
                     // No coinciden - voltear de nuevo
                     setTimeout(() => {
                         
-                        showFeedback("隆No!", 'fail'); 
+                        showFeedback("¡No!", 'fail'); 
+
+                        flippedCards[0].classList.add('fail-match');
+                        flippedCards[1].classList.add('fail-match');
                         
                         flippedCards[0].querySelector('.card-inner').classList.remove('flipped');
                         flippedCards[1].querySelector('.card-inner').classList.remove('flipped');
                         
-                        flippedCards = [];
-                        canFlip = true;
-                        wildcardBtn.disabled = (wildcards <= 0); 
+                        setTimeout(() => {
+                            flippedCards[0].classList.remove('fail-match');
+                            flippedCards[1].classList.remove('fail-match');
+                            flippedCards = [];
+                            canFlip = true;
+                            wildcardBtn.disabled = (wildcards <= 0); 
+                        }, 400); 
+                        
                     }, 1000);
                 }
             }
         }
         
-        /**
-         * Activa un comod铆n para revelar y emparejar dos cartas no coincidentes.
-         */
         function useWildcard() {
             if (wildcards <= 0 || !canFlip) {
                 if (wildcards <= 0) {
@@ -677,14 +764,12 @@
             canFlip = false;
             wildcardBtn.disabled = true;
 
-            // 1. Deducir un comod铆n 
             wildcards--;
             wildcardDisplay.textContent = wildcards;
             saveGameData();
             
-            showFeedback("聛0鈥�3Comod篓陋n Activo!", 'match');
+            showFeedback("✨ Comodín Activo! (+4 Pts)", 'wildcard');
 
-            // 2. Encontrar dos cartas no emparejadas con el mismo s铆mbolo 
             const allUnmatchedCards = Array.from(gameBoard.querySelectorAll('.card:not(.matched)'));
             
             if (allUnmatchedCards.length < 2) {
@@ -693,7 +778,6 @@
                 return;
             }
 
-            // Selecciona el primer par que encuentre
             let card1 = null;
             let card2 = null;
 
@@ -707,40 +791,34 @@
             }
             
             if (!card1 || !card2) {
-                console.error("No se pudo encontrar una pareja con el comod铆n.");
+                console.error("No se pudo encontrar una pareja con el comodín.");
                 canFlip = true;
                 wildcardBtn.disabled = (wildcards <= 0);
                 return;
             }
 
-            // 3. Simular el volteo y emparejamiento con animaci贸n 
-            
             card1.querySelector('.card-inner').classList.add('flipped');
             card2.querySelector('.card-inner').classList.add('flipped');
 
             setTimeout(() => {
-                // Marcar como emparejadas
                 card1.classList.add('matched');
                 card2.classList.add('matched');
 
-                // Aplicar estilos de emparejamiento
                 card1.querySelector('.card-back').style.backgroundColor = '#4caf50';
                 card2.querySelector('.card-back').style.backgroundColor = '#4caf50';
                 
-                // Actualizar datos del juego
                 matchedCardIndices.push(parseInt(card1.dataset.index));
                 matchedCardIndices.push(parseInt(card2.dataset.index));
 
                 matchedPairs++;
+                updateProgressBar(); 
                 
-                score += 2; 
+                score += 4; 
                 scoreDisplay.textContent = score;
                 animateScoreGain();
                 saveGameData();
 
-                // Revisar si se termin贸 el nivel
-                const currentPairsCount = Math.min(5 + (level - 1), MAX_PAIRS);
-                if (matchedPairs === currentPairsCount) {
+                if (matchedPairs === totalPairsInLevel) {
                     setTimeout(levelUp, 800);
                 } else {
                     canFlip = true; 
@@ -753,7 +831,6 @@
         function levelUp(showScreen = true) {
             const oldLevel = level;
             
-            // Seguimiento GA4
             if (typeof gtag === 'function') {
                 gtag('event', 'level_up', {
                     'level': oldLevel,
@@ -767,7 +844,6 @@
             
             level++;
             
-            // Recompensa de Comod铆n 
             wildcards++; 
             wildcardDisplay.textContent = wildcards;
 
@@ -783,7 +859,8 @@
                  return;
             }
             
-            // PANTALLA DE LEVEL UP MEJORADA
+            playSoundLevelUp();
+            
             const levelUpScreen = document.createElement('div');
             levelUpScreen.classList.add('level-up');
             
@@ -791,17 +868,17 @@
             const currentPairsCount = Math.min(5 + (level - 1), MAX_PAIRS);
             
             if (currentPairsCount === MAX_PAIRS) {
-                levelMessage = `隆M谩xima Dificultad! (56 cartas)`;
+                levelMessage = `¡Máxima Dificultad! (56 cartas)`;
             } else {
                 levelMessage = `Preparando Nivel ${level} (${currentPairsCount} pares)...`;
             }
             
             levelUpScreen.innerHTML = `
-                <span class="brain-icon" style="margin-bottom: 20px;">馃</span>
+                <span class="brain-icon" style="margin-bottom: 20px;">🧠</span>
                 
-                <h2>隆Nivel ${oldLevel} Completado!</h2>
-                <p>Puntuaci贸n actual: **${score}**</p>
-                <p>隆Has ganado 1 Comod铆n! Tienes **${wildcards}**.</p>
+                <h2>¡Nivel ${oldLevel} Completado!</h2>
+                <p>Puntuación actual: **${score}**</p>
+                <p class="reward">¡Has ganado 1 Comodín! Tienes **${wildcards}**.</p>
                 <p style="font-size: 1.8rem; font-weight: bold; color: #ffeb3b; margin-top: 20px;">
                     ${levelMessage}
                 </p>
@@ -815,10 +892,9 @@
                 }
                 canFlip = true;
                 initGame();
-            }, 2500);
+            }, 3000);
         }
         
-        // Mezclar array (Fisher-Yates)
         function shuffleArray(array) {
             const newArray = [...array];
             for (let i = newArray.length - 1; i > 0; i--) {
@@ -832,20 +908,17 @@
         // === INICIO DEL JUEGO Y EVENT LISTENERS ===
         // ====================================================================
 
-        // Evento para el bot贸n de alternancia de m煤sica 
         toggleMusicBtn.addEventListener('click', toggleBackgroundMusic);
 
-        // Proceso de inicio
         window.addEventListener('load', () => {
             loadGameData(); 
             initGame();
             
             if (isMusicPlaying) {
-                 audioFondo.play().catch(e => console.warn("Autoplay bloqueado. El usuario debe interactuar para que inicie la m篓虏sica.", e));
+                 audioFondo.play().catch(e => console.warn("Autoplay bloqueado. El usuario debe interactuar para que inicie la música.", e));
             }
         });
         
-        // Evento para guardar el estado de la m煤sica al salir
         window.addEventListener('beforeunload', () => {
             if (isMusicPlaying) {
                 audioFondo.pause();
