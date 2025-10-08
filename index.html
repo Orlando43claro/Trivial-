@@ -4,6 +4,15 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ascenso Mental</title>
+    
+    <script async src="https://www.googletagmanager.com/gtag/js?id=TU_ID_DE_MEDICION"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+    
+      gtag('config', 'TU_ID_DE_MEDICION');
+    </script>
     <style>
         * {
             box-sizing: border-box;
@@ -20,7 +29,7 @@
             align-items: center;
             padding: 20px;
             color: white;
-            position: relative; /* Necesario para posicionar el control de audio */
+            position: relative;
         }
         
         .container {
@@ -62,7 +71,7 @@
             transition: transform 0.2s;
         }
         
-        /* === ESTILOS DE ANIMACI脫N DE PUNTOS === */
+        /* === ESTILOS DE ANIMACIÓN DE PUNTOS === */
         .score-boost {
             animation: score-jump 0.4s ease-out;
         }
@@ -147,6 +156,10 @@
 
         .controls {
             margin-top: 15px;
+            /* CAMBIO: Usar Flexbox para alinear botones horizontalmente */
+            display: flex;
+            justify-content: center; 
+            gap: 15px; 
         }
         
         .controls button {
@@ -160,12 +173,18 @@
             transition: all 0.3s;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             font-weight: bold;
-            margin: 0 5px; 
+            margin: 0; /* Aseguramos que el margin horizontal se controle por 'gap' */
         }
         
-        .controls button:hover {
+        .controls button:hover:not(:disabled) {
             background-color: #f50057;
             transform: translateY(-2px);
+        }
+        
+        .controls button:disabled {
+            background-color: #9c27b0; 
+            cursor: not-allowed;
+            opacity: 0.7;
         }
 
         /* === ESTILOS DE CONTROL DE AUDIO === */
@@ -173,7 +192,7 @@
             position: fixed;
             top: 20px;
             right: 20px;
-            z-index: 200; /* Asegura que est茅 por encima de todo */
+            z-index: 200;
         }
 
         .audio-control button {
@@ -198,27 +217,12 @@
         /* ==================================== */
 
         /* === ESTILOS DE EFECTO DE NIVEL === */
+        /* El overlay original se mantiene para otros efectos, pero su funcionalidad de LEVEL-UP se mueve al .level-up */
         .level-effect-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.7);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 50;
-            opacity: 0;
-            transition: opacity 0.5s;
-            pointer-events: none;
-        }
-
-        .level-effect-overlay.active {
-            opacity: 1;
-            pointer-events: auto; 
+            display: none; /* Ocultamos el overlay original, ya no se usa para LevelUp */
         }
         
+        /* ESTILOS CLAVE PARA EL ICONO DEL CEREBRO ANIMADO */
         .brain-icon {
             font-size: 6rem;
             animation: brain-float 1.5s infinite alternate ease-in-out, 
@@ -244,23 +248,25 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.8);
+            background-color: rgba(0, 0, 0, 0.9); /* Un poco más oscuro */
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             z-index: 100;
+            text-align: center;
         }
         
         .level-up h2 {
             font-size: 3rem;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
             color: #ffeb3b;
+            text-shadow: 2px 2px 5px rgba(0,0,0,0.5);
         }
         
         .level-up p {
             font-size: 1.5rem;
-            margin-bottom: 30px;
+            margin-bottom: 10px;
         }
         
         /* Responsive adjustments */
@@ -283,17 +289,25 @@
                 height: 40px;
                 font-size: 1.3rem;
             }
+            .controls {
+                flex-direction: column;
+                gap: 10px;
+            }
         }
     </style>
 </head>
 <body>
     
-    <audio id="audioFondo" src="fondo.mp3" loop></audio> <audio id="audioClick" src="primero.mp3"></audio> <div class="audio-control">
-        <button id="toggle-music-btn">馃攰</button>
+    <div id="feedback-message" style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 300; padding: 20px 40px; border-radius: 10px; font-size: 2rem; font-weight: bold; color: white; opacity: 0; transition: opacity 0.3s, transform 0.3s; pointer-events: none; text-shadow: 2px 2px 5px rgba(0,0,0,0.5);"></div>
+
+    <audio id="audioFondo" src="fondo.mp3" loop></audio> 
+    <audio id="audioClick" src="primero.mp3"></audio> 
+    <div class="audio-control">
+        <button id="toggle-music-btn">🔊</button>
     </div>
 
     <div class="container">
-        <h2>馃 Ascenso Mental 馃</h2>
+        <h2>🧠 Ascenso Mental 🧠</h2>
         
         <div class="stats">
             <div class="stat-box">
@@ -301,34 +315,39 @@
                 <div class="stat-value" id="level">1</div>
             </div>
             <div class="stat-box">
-                <div class="stat-label">Puntuaci贸n</div>
+                <div class="stat-label">Puntuación</div>
                 <div class="stat-value" id="score">0</div>
             </div>
             <div class="stat-box">
                 <div class="stat-label">Intentos</div>
                 <div class="stat-value" id="attempts">0</div>
             </div>
-        </div>
+            <div class="stat-box">
+                <div class="stat-label">Comodines</div>
+                <div class="stat-value" id="wildcards">0</div>
+            </div>
+            </div>
         
         <div class="game-board" id="game-board">
              <div class="level-effect-overlay" id="level-overlay">
-                <span class="brain-icon">馃</span>
+                <span class="brain-icon">🧠</span>
             </div>
         </div>
 
         <div class="controls">
-            <button onclick="window.location.href='canje.html'">馃弳 Canjear Premios</button>
+            <button id="wildcard-btn" onclick="useWildcard()">✨ Usar Comodín</button> 
+            <button onclick="window.location.href='canje.html'">🏆 Canjear Premios</button>
         </div>
     </div>
 
   <div style="margin-top: 30px; font-size: 0.9rem;">
-    <a href="privacidad.html" style="color: #ffeb3b; text-decoration: none;">Pol铆tica de Privacidad</a>
+    <a href="privacidad.html" style="color: #ffeb3b; text-decoration: none;">Política de Privacidad</a>
 </div>
 
     
     <script>
         // ====================================================================
-        // === CONFIGURACI脫N Y VARIABLES ===
+        // === CONFIGURACIÓN Y VARIABLES ===
         // ====================================================================
         
         const gameBoard = document.getElementById('game-board');
@@ -336,32 +355,36 @@
         const scoreDisplay = document.getElementById('score');
         const scoreValueElement = document.getElementById('score').closest('.stat-value');
         const attemptsDisplay = document.getElementById('attempts');
-        const levelOverlay = document.getElementById('level-overlay');
+        const levelOverlay = document.getElementById('level-overlay'); // Se mantiene pero está oculto en CSS
+        const wildcardDisplay = document.getElementById('wildcards'); 
+        const wildcardBtn = document.getElementById('wildcard-btn'); 
+        const feedbackMessage = document.getElementById('feedback-message'); 
         
         // AUDIO ELEMENTS
         const audioFondo = document.getElementById('audioFondo');
         const audioClick = document.getElementById('audioClick');
         const toggleMusicBtn = document.getElementById('toggle-music-btn');
-        let isMusicPlaying = false; // Estado de la m煤sica de fondo
+        let isMusicPlaying = false; 
         
         const MAX_PAIRS = 28; 
         
         let level = 1;
         let score = 0;
         let attempts = 0;
+        let wildcards = 0; 
         let flippedCards = [];
         let matchedPairs = 0;
         let canFlip = true;
         let matchedCardIndices = []; 
 
         const allSymbols = [
-            '馃惗', '馃惐', '馃惌', '馃惞', '馃惏', '馃', '馃惢', '馃惣', '馃惃', '馃惎', 
-            '馃', '馃惍', '馃惙', '馃惛', '馃惖', '馃悢', '馃惂', '馃', '馃', '馃', 
-            '馃', '馃悰', '馃悵', '馃悶', '馃悹', '馃惓', '馃惉', '馃悽', '馃悕', '馃悐', 
-            '馃嚘馃嚪', '馃嚙馃嚪', '馃嚚馃嚤', '馃嚚馃嚧', '馃嚜馃嚫', '馃嚝馃嚪', '馃嚞馃嚙', '馃嚠馃嚬', '馃嚡馃嚨', '馃嚥馃嚱', 
-            '馃嚭馃嚫', '馃嚚馃嚘', '馃嚛馃嚜', '馃嚚馃嚦', '馃嚠馃嚦', '馃嚨馃嚜', '馃嚨馃嚬', '馃嚪馃嚭', '馃嚢馃嚪', '馃嚳馃嚘', 
-            '馃殫', '馃殨', '馃殞', '馃弾锔�', '馃殦', '馃殤', '馃殥', '馃殮', '馃殰', '馃浀', 
-            '馃毑', '馃殺', '鉁堬笍', '馃殌', '馃殎', '馃殏', '馃殑', '馃殕', '馃殗', '馃殐' 
+            '🐶', '🐱', '🐭', '🐹', '🐰', '🦊', '🐻', '🐼', '🐨', '🐯', 
+            '🦁', '🐮', '🐷', '🐸', '🐵', '🐔', '🐧', '🦅', '🦉', '🦆', 
+            '🦋', '🐛', '🐝', '🐞', '🐠', '🐳', '🐬', '🐢', '🐍', '🐊', 
+            '🇦🇷', '🇧🇷', '🇨🇱', '🇨🇴', '🇪🇸', '🇫🇷', '🇬🇧', '🇮🇹', '🇯🇵', '🇲🇽', 
+            '🇺🇸', '🇨🇦', '🇩🇪', '🇨🇳', '🇮🇳', '🇵🇪', '🇵🇹', '🇷🇺', '🇰🇷', '🇿🇦', 
+            '🚗', '🚕', '🚌', '🏎️', '🚓', '🚑', '🚒', '🚚', '🚜', '🛵', 
+            '🚲', '🚢', '✈️', '🚀', '🚁', '🚂', '🚄', '🚆', '🚇', '🚃' 
         ];
 
 
@@ -379,23 +402,23 @@
         }
 
         /**
-         * Alterna la reproducci贸n de la m煤sica de fondo y actualiza el 铆cono del bot贸n.
+         * Alterna la reproducción de la música de fondo y actualiza el ícono del botón.
          */
         function toggleBackgroundMusic() {
             if (isMusicPlaying) {
                 audioFondo.pause();
-                toggleMusicBtn.textContent = '馃攪'; // 脥cono de silencio
+                toggleMusicBtn.textContent = '🔇'; 
             } else {
-                audioFondo.volume = 0.4; // Volumen un poco bajo
-                audioFondo.play().catch(e => console.warn("Error al iniciar la m煤sica de fondo:", e));
-                toggleMusicBtn.textContent = '馃攰'; // 脥cono de sonido
+                audioFondo.volume = 0.4; 
+                audioFondo.play().catch(e => console.warn("Error al iniciar la música de fondo:", e));
+                toggleMusicBtn.textContent = '🔊'; 
             }
-            isMusicPlaying = !isMusicPlaying; // Invierte el estado
-            localStorage.setItem('memoryGameMusicState', isMusicPlaying); // Guarda el estado
+            isMusicPlaying = !isMusicPlaying; 
+            localStorage.setItem('memoryGameMusicState', isMusicPlaying); 
         }
 
         /**
-         * Aplica un efecto de "moneda" a la puntuaci贸n al ganar un punto.
+         * Aplica un efecto de "moneda" a la puntuación al ganar un punto.
          */
         function animateScoreGain() {
             scoreValueElement.classList.add('score-boost');
@@ -405,15 +428,26 @@
         }
 
         /**
-         * Muestra el efecto de exploraci贸n/cerebro en el centro del tablero.
+         * Muestra un mensaje temporal de feedback.
          */
-        function showLevelUpEffect() {
-            levelOverlay.classList.add('active');
+        function showFeedback(message, type) {
+            feedbackMessage.textContent = message;
             
+            if (type === 'match') {
+                feedbackMessage.style.backgroundColor = 'rgba(76, 175, 80, 0.8)'; // Verde
+            } else if (type === 'fail') {
+                feedbackMessage.style.backgroundColor = 'rgba(244, 67, 54, 0.8)'; // Rojo
+            }
+            
+            feedbackMessage.style.opacity = '1';
+            feedbackMessage.style.transform = 'translate(-50%, -50%) scale(1.1)';
+
             setTimeout(() => {
-                levelOverlay.classList.remove('active');
-            }, 1500); 
+                feedbackMessage.style.opacity = '0';
+                feedbackMessage.style.transform = 'translate(-50%, -50%) scale(1)';
+            }, 1000); 
         }
+
 
         // ====================================================================
         // === ALMACENAMIENTO LOCAL ===
@@ -423,7 +457,9 @@
             const savedLevel = localStorage.getItem('memoryGameLevel');
             const savedScore = localStorage.getItem('memoryGameScore');
             const savedMatchedIndices = localStorage.getItem('memoryMatchedIndices');
-            const savedMusicState = localStorage.getItem('memoryGameMusicState'); // Carga el estado de la m煤sica
+            const savedMusicState = localStorage.getItem('memoryGameMusicState'); 
+            const savedAttempts = localStorage.getItem('memoryGameAttempts'); 
+            const savedWildcards = localStorage.getItem('memoryGameWildcards'); 
             
             if (savedLevel !== null) {
                 level = parseInt(savedLevel);
@@ -433,22 +469,29 @@
                 score = parseInt(savedScore);
                 scoreDisplay.textContent = score;
             }
+            if (savedAttempts !== null) { 
+                attempts = parseInt(savedAttempts);
+                attemptsDisplay.textContent = attempts;
+            }
+            if (savedWildcards !== null) { 
+                wildcards = parseInt(savedWildcards);
+                wildcardDisplay.textContent = wildcards;
+            }
             if (savedMatchedIndices !== null) {
                 matchedCardIndices = JSON.parse(savedMatchedIndices);
             } else {
                 matchedCardIndices = [];
             }
 
-            // Restaura el estado de la m煤sica
+            // Restaura el estado de la música
             if (savedMusicState === 'true') {
                 isMusicPlaying = true;
                 audioFondo.volume = 0.4;
-                audioFondo.play().catch(e => console.warn("Autoplay bloqueado o error al iniciar m煤sica.", e));
-                toggleMusicBtn.textContent = '馃攰';
+                toggleMusicBtn.textContent = '🔊';
             } else {
                 isMusicPlaying = false;
                 audioFondo.pause();
-                toggleMusicBtn.textContent = '馃攪';
+                toggleMusicBtn.textContent = '🔇';
             }
         }
 
@@ -456,11 +499,13 @@
             localStorage.setItem('memoryGameLevel', level);
             localStorage.setItem('memoryGameScore', score);
             localStorage.setItem('memoryMatchedIndices', JSON.stringify(matchedCardIndices));
-            localStorage.setItem('memoryGameMusicState', isMusicPlaying); // Guarda el estado de la m煤sica
+            localStorage.setItem('memoryGameMusicState', isMusicPlaying); 
+            localStorage.setItem('memoryGameAttempts', attempts); 
+            localStorage.setItem('memoryGameWildcards', wildcards); 
         }
 
         // ====================================================================
-        // === L脫GICA DEL JUEGO ===
+        // === LÓGICA DEL JUEGO ===
         // ====================================================================
 
         function clearGameBoardCards() {
@@ -483,10 +528,14 @@
                 return;
             }
 
-            attempts = 0;
+            // Si se carga un nuevo layout, se reinician los intentos
+            if (localStorage.getItem('memoryCardLayout') === null || JSON.parse(localStorage.getItem('memoryCardLayout')).length !== totalCards) {
+                 attempts = 0;
+            }
+            
             attemptsDisplay.textContent = attempts;
             
-            // --- L贸gica de Selecci贸n de S铆mbolos ---
+            // --- Lógica de Selección de Símbolos ---
             let levelSymbols;
             const currentMaxPairs = Math.min(5 + (level - 1), MAX_PAIRS);
 
@@ -537,6 +586,9 @@
                 
                 gameBoard.insertBefore(card, levelOverlay);
             });
+            
+            // Habilitar/Deshabilitar botón de comodín al inicio
+            wildcardBtn.disabled = (wildcards <= 0);
         }
         
         function flipCard(card) {
@@ -555,10 +607,15 @@
                 canFlip = false;
                 attempts++;
                 attemptsDisplay.textContent = attempts;
-                
+                saveGameData(); 
+
+                wildcardBtn.disabled = true; 
+
                 if (flippedCards[0].dataset.symbol === flippedCards[1].dataset.symbol) {
                     // Coinciden (Pareja)
                     setTimeout(() => {
+                        
+                        showFeedback("¡Pareja!", 'match'); 
                         
                         flippedCards[0].classList.add('matched');
                         flippedCards[1].classList.add('matched');
@@ -586,28 +643,133 @@
                         
                         flippedCards = [];
                         canFlip = true;
+                        wildcardBtn.disabled = (wildcards <= 0); 
                     }, 500);
                 } else {
                     // No coinciden - voltear de nuevo
                     setTimeout(() => {
+                        
+                        showFeedback("¡No!", 'fail'); 
+                        
                         flippedCards[0].querySelector('.card-inner').classList.remove('flipped');
                         flippedCards[1].querySelector('.card-inner').classList.remove('flipped');
                         
                         flippedCards = [];
                         canFlip = true;
+                        wildcardBtn.disabled = (wildcards <= 0); 
                     }, 1000);
                 }
             }
         }
         
+        /**
+         * Activa un comodín para revelar y emparejar dos cartas no coincidentes.
+         */
+        function useWildcard() {
+            if (wildcards <= 0 || !canFlip) {
+                if (wildcards <= 0) {
+                     alert("No tienes comodines disponibles.");
+                }
+                return;
+            }
+
+            canFlip = false;
+            wildcardBtn.disabled = true;
+
+            // 1. Deducir un comodín
+            wildcards--;
+            wildcardDisplay.textContent = wildcards;
+            saveGameData();
+            
+            showFeedback("¡Comodín Activo!", 'match');
+
+            // 2. Encontrar dos cartas no emparejadas con el mismo símbolo
+            const allUnmatchedCards = Array.from(gameBoard.querySelectorAll('.card:not(.matched)'));
+            
+            if (allUnmatchedCards.length < 2) {
+                canFlip = true;
+                wildcardBtn.disabled = (wildcards <= 0);
+                return;
+            }
+
+            // Selecciona el primer par que encuentre
+            let card1 = null;
+            let card2 = null;
+
+            for(let i = 0; i < allUnmatchedCards.length; i++){
+                const currentSymbol = allUnmatchedCards[i].dataset.symbol;
+                card2 = allUnmatchedCards.slice(i + 1).find(c => c.dataset.symbol === currentSymbol);
+                if(card2){
+                    card1 = allUnmatchedCards[i];
+                    break;
+                }
+            }
+            
+            if (!card1 || !card2) {
+                console.error("No se pudo encontrar una pareja con el comodín.");
+                canFlip = true;
+                wildcardBtn.disabled = (wildcards <= 0);
+                return;
+            }
+
+            // 3. Simular el volteo y emparejamiento con animación
+            
+            card1.querySelector('.card-inner').classList.add('flipped');
+            card2.querySelector('.card-inner').classList.add('flipped');
+
+            setTimeout(() => {
+                // Marcar como emparejadas
+                card1.classList.add('matched');
+                card2.classList.add('matched');
+
+                // Aplicar estilos de emparejamiento
+                card1.querySelector('.card-back').style.backgroundColor = '#4caf50';
+                card2.querySelector('.card-back').style.backgroundColor = '#4caf50';
+                
+                // Actualizar datos del juego
+                matchedCardIndices.push(parseInt(card1.dataset.index));
+                matchedCardIndices.push(parseInt(card2.dataset.index));
+
+                matchedPairs++;
+                
+                score += 2; 
+                scoreDisplay.textContent = score;
+                animateScoreGain();
+                saveGameData();
+
+                // Revisar si se terminó el nivel
+                const currentPairsCount = Math.min(5 + (level - 1), MAX_PAIRS);
+                if (matchedPairs === currentPairsCount) {
+                    setTimeout(levelUp, 800);
+                } else {
+                    canFlip = true; 
+                    wildcardBtn.disabled = (wildcards <= 0);
+                }
+            }, 1200);
+        }
+
+        
         function levelUp(showScreen = true) {
             const oldLevel = level;
             
+            // Seguimiento GA4
+            if (typeof gtag === 'function') {
+                gtag('event', 'level_up', {
+                    'level': oldLevel,
+                    'score_at_level_end': score,
+                    'attempts_to_complete': attempts,
+                    'event_category': 'game_progression'
+                });
+            }
+
             canFlip = false; 
-            showLevelUpEffect(); 
             
             level++;
             
+            // Recompensa de Comodín
+            wildcards++; 
+            wildcardDisplay.textContent = wildcards;
+
             matchedCardIndices = [];
             localStorage.removeItem('memoryCardLayout'); 
             
@@ -620,20 +782,28 @@
                  return;
             }
             
+            // PANTALLA DE LEVEL UP MEJORADA
             const levelUpScreen = document.createElement('div');
+            levelUpScreen.classList.add('level-up');
+            
             let levelMessage;
             const currentPairsCount = Math.min(5 + (level - 1), MAX_PAIRS);
             
             if (currentPairsCount === MAX_PAIRS) {
-                levelMessage = `隆M谩xima Dificultad! (56 cartas)`;
+                levelMessage = `¡Máxima Dificultad! (56 cartas)`;
             } else {
                 levelMessage = `Preparando Nivel ${level} (${currentPairsCount} pares)...`;
             }
             
             levelUpScreen.innerHTML = `
-                <h2>隆Nivel ${oldLevel} Completado!</h2>
-                <p>Puntuaci贸n actual: ${score}</p>
-                <p>${levelMessage}</p>
+                <span class="brain-icon" style="margin-bottom: 20px;">🧠</span>
+                
+                <h2>¡Nivel ${oldLevel} Completado!</h2>
+                <p>Puntuación actual: **${score}**</p>
+                <p>¡Has ganado 1 Comodín! Tienes **${wildcards}**.</p>
+                <p style="font-size: 1.8rem; font-weight: bold; color: #ffeb3b; margin-top: 20px;">
+                    ${levelMessage}
+                </p>
             `;
             
             document.body.appendChild(levelUpScreen);
@@ -661,22 +831,26 @@
         // === INICIO DEL JUEGO Y EVENT LISTENERS ===
         // ====================================================================
 
-        // Evento para el bot贸n de alternancia de m煤sica
+        // Evento para el botón de alternancia de música
         toggleMusicBtn.addEventListener('click', toggleBackgroundMusic);
 
-        // Evento para detener la m煤sica al salir/cerrar la web app
+        // Proceso de inicio
+        window.addEventListener('load', () => {
+            loadGameData(); 
+            initGame();
+            
+            if (isMusicPlaying) {
+                 audioFondo.play().catch(e => console.warn("Autoplay bloqueado. El usuario debe interactuar para que inicie la música.", e));
+            }
+        });
+        
+        // Evento para guardar el estado de la música al salir
         window.addEventListener('beforeunload', () => {
             if (isMusicPlaying) {
                 audioFondo.pause();
                 audioFondo.currentTime = 0; 
             }
-            localStorage.setItem('memoryGameMusicState', false); // Asegura que se guarde como apagada al salir
-        });
-
-        // Proceso de inicio
-        window.addEventListener('load', () => {
-            loadGameData(); // Carga los datos y el estado de la m煤sica
-            initGame();
+            localStorage.setItem('memoryGameMusicState', isMusicPlaying);
         });
     </script>
 </body>
