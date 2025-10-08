@@ -106,7 +106,7 @@
         }
         /* ==================================== */
 
-        /* Estilos de animaci¨®n de puntos, juego, y cartas se mantienen */
+        /* Estilos de animaciÂ¨Â®n de puntos, juego, y cartas se mantienen */
         .score-boost {
             animation: score-jump 0.4s ease-out;
         }
@@ -198,7 +198,7 @@
             cursor: default;
         }
 
-        /* ESTILOS CLAVE: Alineaci¨®n horizontal y tama0Š9o de letra peque0Š9a */
+        /* ESTILOS CLAVE: AlineaciÂ¨Â®n horizontal y tamaÂ0Å 9o de letra pequeÂ0Å 9a */
         .controls {
             margin-top: 15px;
             display: flex;
@@ -211,7 +211,7 @@
             color: white;
             border: none;
             padding: 10px 20px; 
-            font-size: 0.9rem; /* Letra m¨¢s peque0Š9a */
+            font-size: 0.9rem; /* Letra mÂ¨Â¢s pequeÂ0Å 9a */
             border-radius: 50px;
             cursor: pointer;
             transition: all 0.3s;
@@ -349,7 +349,7 @@
                 height: 40px;
                 font-size: 1.3rem;
             }
-            /* En m¨®vil, los botones vuelven a alineaci¨®n vertical por dise0Š9o responsive */
+            /* En mÂ¨Â®vil, los botones vuelven a alineaciÂ¨Â®n vertical por diseÂ0Å 9o responsive */
             .controls {
                 flex-direction: column;
                 gap: 10px;
@@ -372,11 +372,11 @@
     <audio id="audioLevelUp" src="nivel.mp3"></audio> 
 
     <div class="audio-control">
-        <button id="toggle-music-btn">”9ä0</button>
+        <button id="toggle-music-btn">ðŸ”Š</button>
     </div>
 
     <div class="container">
-        <h2>•0á8 Ascenso Mental •0á8</h2>
+        <h2>ðŸ§  Ascenso Mental ðŸ§ </h2>
         
         <div class="stats">
             <div class="stat-box">
@@ -384,7 +384,7 @@
                 <div class="stat-value" id="level">1</div>
             </div>
             <div class="stat-box">
-                <div class="stat-label">Puntuaci¨®n</div>
+                <div class="stat-label">PuntuaciÃ³n</div>
                 <div class="stat-value" id="score">0</div>
             </div>
             <div class="stat-box">
@@ -404,24 +404,24 @@
         </div>
         <div class="game-board" id="game-board">
              <div class="level-effect-overlay" id="level-overlay">
-                <span class="brain-icon">•0á8</span>
+                <span class="brain-icon">â€¢0Ã¡8</span>
             </div>
         </div>
 
         <div class="controls">
-            <button id="wildcard-btn" onclick="useWildcard()">7¿8 Usar Comod¨ªn</button> 
-            <button onclick="window.location.href='canje.html'">”9Ã6 Canjear Premios</button>
+            <button id="wildcard-btn" onclick="useWildcard()">Â7Â¿8 Usar ComodÂ¨Âªn</button> 
+            <button onclick="window.location.href='canje.html'">â€9Ãƒ6 Canjear Premios</button>
         </div>
     </div>
 
   <div style="margin-top: 30px; font-size: 0.9rem;">
-    <a href="privacidad.html" style="color: #ffeb3b; text-decoration: none;">Pol¨ªticas de Privacidad</a>
+    <a href="privacidad.html" style="color: #ffeb3b; text-decoration: none;">PolÂ¨Âªticas de Privacidad</a>
 </div>
 
     
     <script>
         // ====================================================================
-        // === CONFIGURACI0ˆ7N Y VARIABLES ===
+        // === CONFIGURACIÂ0Ë†7N Y VARIABLES ===
         // ====================================================================
         
         const gameBoard = document.getElementById('game-board');
@@ -457,13 +457,13 @@
         let totalPairsInLevel = 0; 
 
         const allSymbols = [
-            '•0Ù2', '”9Î3', '”9Ï2', '•0Ø6', '”9Î2', '”9Î8', '”9Ï3', '”9Ï4', '”9Í4', '”9Î1', 
-            '•0Ø3', '”9Î0', '”9Î9', '”9Ï0', '”9Î7', '”9Ë4', '”9Í3', '•0Ø7', '•0Ù1', '•0Ø8', 
-            '•0Ù3', '”9Ì1', '”9Ì3', '”9Ì4', '”9Ì6', '”9Î5', '”9Í8', '”9Ì8', '”9Ê7', '”9Ê4', 
-            '”9“6”9•3', '”9“7”9•3', '”9“8”9”7', '”9“8”9•0', '”9”0”9•4', '”9”1”9•3', '”9”2”9“7', '”9”4”9•5', '”9”5”9•1', '”9”8”9•9', 
-            '”9•6”9•4', '”9“8”9“6', '”9“9”9”0', '”9“8”9”9', '”9”4”9”9', '”9•1”9”0', '”9•1”9•5', '”9•3”9•6', '”9”6”9•3', '”9–1”9“6', 
-            '•07', '•05', '•0Œ6', '”9Ä4„1‚5', '•03', '•01', '•02', '•0Ž0', '•0Ž2', '•0—1', 
-            '•04', '•0Ž8', '7¼6„1‚5', '•0‹4', '•0‹5', '•0‹6', '•0‹8', '•0Œ0', '•0Œ1', '•0‹7' 
+            'â€¢0Ã™2', 'â€9ÃŽ3', 'â€9Ã2', 'â€¢0Ã˜6', 'â€9ÃŽ2', 'â€9ÃŽ8', 'â€9Ã3', 'â€9Ã4', 'â€9Ã4', 'â€9ÃŽ1', 
+            'â€¢0Ã˜3', 'â€9ÃŽ0', 'â€9ÃŽ9', 'â€9Ã0', 'â€9ÃŽ7', 'â€9Ã‹4', 'â€9Ã3', 'â€¢0Ã˜7', 'â€¢0Ã™1', 'â€¢0Ã˜8', 
+            'â€¢0Ã™3', 'â€9ÃŒ1', 'â€9ÃŒ3', 'â€9ÃŒ4', 'â€9ÃŒ6', 'â€9ÃŽ5', 'â€9Ã8', 'â€9ÃŒ8', 'â€9ÃŠ7', 'â€9ÃŠ4', 
+            'â€9â€œ6â€9â€¢3', 'â€9â€œ7â€9â€¢3', 'â€9â€œ8â€9â€7', 'â€9â€œ8â€9â€¢0', 'â€9â€0â€9â€¢4', 'â€9â€1â€9â€¢3', 'â€9â€2â€9â€œ7', 'â€9â€4â€9â€¢5', 'â€9â€5â€9â€¢1', 'â€9â€8â€9â€¢9', 
+            'â€9â€¢6â€9â€¢4', 'â€9â€œ8â€9â€œ6', 'â€9â€œ9â€9â€0', 'â€9â€œ8â€9â€9', 'â€9â€4â€9â€9', 'â€9â€¢1â€9â€0', 'â€9â€¢1â€9â€¢5', 'â€9â€¢3â€9â€¢6', 'â€9â€6â€9â€¢3', 'â€9â€“1â€9â€œ6', 
+            'â€¢0Â7', 'â€¢0Â5', 'â€¢0Å’6', 'â€9Ã„4â€ž1â€š5', 'â€¢0Â3', 'â€¢0Â1', 'â€¢0Â2', 'â€¢0Å½0', 'â€¢0Å½2', 'â€¢0â€”1', 
+            'â€¢0Â4', 'â€¢0Å½8', 'Â7Â¼6â€ž1â€š5', 'â€¢0â€¹4', 'â€¢0â€¹5', 'â€¢0â€¹6', 'â€¢0â€¹8', 'â€¢0Å’0', 'â€¢0Å’1', 'â€¢0â€¹7' 
         ];
 
 
@@ -486,11 +486,11 @@
         function toggleBackgroundMusic() {
             if (isMusicPlaying) {
                 audioFondo.pause();
-                toggleMusicBtn.textContent = '”9ã8'; 
+                toggleMusicBtn.textContent = 'â€9Ã£8'; 
             } else {
                 audioFondo.volume = 0.4; 
-                audioFondo.play().catch(e => console.warn("Error al iniciar la m¨²sica de fondo:", e));
-                toggleMusicBtn.textContent = '”9ä0'; 
+                audioFondo.play().catch(e => console.warn("Error al iniciar la mÂ¨Â²sica de fondo:", e));
+                toggleMusicBtn.textContent = 'â€9Ã¤0'; 
             }
             isMusicPlaying = !isMusicPlaying; 
             localStorage.setItem('memoryGameMusicState', isMusicPlaying); 
@@ -569,11 +569,11 @@
             if (savedMusicState === 'true') {
                 isMusicPlaying = true;
                 audioFondo.volume = 0.4;
-                toggleMusicBtn.textContent = '”9ä0';
+                toggleMusicBtn.textContent = 'â€9Ã¤0';
             } else {
                 isMusicPlaying = false;
                 audioFondo.pause();
-                toggleMusicBtn.textContent = '”9ã8';
+                toggleMusicBtn.textContent = 'â€9Ã£8';
             }
         }
 
@@ -695,7 +695,7 @@
                     // Coinciden (Pareja)
                     setTimeout(() => {
                         
-                        showFeedback("0„3Pareja!", 'match'); 
+                        showFeedback("Â0â€ž3Pareja!", 'match'); 
                         
                         flippedCards[0].classList.remove('fail-match');
                         flippedCards[1].classList.remove('fail-match');
@@ -732,7 +732,7 @@
                     // No coinciden - voltear de nuevo
                     setTimeout(() => {
                         
-                        showFeedback("0„3No!", 'fail'); 
+                        showFeedback("Â0â€ž3No!", 'fail'); 
 
                         flippedCards[0].classList.add('fail-match');
                         flippedCards[1].classList.add('fail-match');
@@ -768,7 +768,7 @@
             wildcardDisplay.textContent = wildcards;
             saveGameData();
             
-            showFeedback("7¿8 Comod¨ªn Activo! (+4 Pts)", 'wildcard');
+            showFeedback("Â7Â¿8 ComodÂ¨Âªn Activo! (+4 Pts)", 'wildcard');
 
             const allUnmatchedCards = Array.from(gameBoard.querySelectorAll('.card:not(.matched)'));
             
@@ -791,7 +791,7 @@
             }
             
             if (!card1 || !card2) {
-                console.error("No se pudo encontrar una pareja con el comod¨ªn.");
+                console.error("No se pudo encontrar una pareja con el comodÂ¨Âªn.");
                 canFlip = true;
                 wildcardBtn.disabled = (wildcards <= 0);
                 return;
@@ -868,17 +868,17 @@
             const currentPairsCount = Math.min(5 + (level - 1), MAX_PAIRS);
             
             if (currentPairsCount === MAX_PAIRS) {
-                levelMessage = `0„3M¨¢xima Dificultad! (56 cartas)`;
+                levelMessage = `Â0â€ž3MÂ¨Â¢xima Dificultad! (56 cartas)`;
             } else {
                 levelMessage = `Preparando Nivel ${level} (${currentPairsCount} pares)...`;
             }
             
             levelUpScreen.innerHTML = `
-                <span class="brain-icon" style="margin-bottom: 20px;">•0á8</span>
+                <span class="brain-icon" style="margin-bottom: 20px;">â€¢0Ã¡8</span>
                 
-                <h2>0„3Nivel ${oldLevel} Completado!</h2>
-                <p>Puntuaci¨®n actual: **${score}**</p>
-                <p class="reward">0„3Has ganado 1 Comod¨ªn! Tienes **${wildcards}**.</p>
+                <h2>Â0â€ž3Nivel ${oldLevel} Completado!</h2>
+                <p>PuntuaciÂ¨Â®n actual: **${score}**</p>
+                <p class="reward">Â0â€ž3Has ganado 1 ComodÂ¨Âªn! Tienes **${wildcards}**.</p>
                 <p style="font-size: 1.8rem; font-weight: bold; color: #ffeb3b; margin-top: 20px;">
                     ${levelMessage}
                 </p>
@@ -915,7 +915,7 @@
             initGame();
             
             if (isMusicPlaying) {
-                 audioFondo.play().catch(e => console.warn("Autoplay bloqueado. El usuario debe interactuar para que inicie la m¨²sica.", e));
+                 audioFondo.play().catch(e => console.warn("Autoplay bloqueado. El usuario debe interactuar para que inicie la mÂ¨Â²sica.", e));
             }
         });
         
