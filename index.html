@@ -347,7 +347,7 @@
     
     <script>
         // ====================================================================
-        // === CONFIGURACI0ˆ7N Y VARIABLES ===
+        // === CONFIGURACIÓN Y VARIABLES ===
         // ====================================================================
         
         const gameBoard = document.getElementById('game-board');
@@ -402,23 +402,23 @@
         }
 
         /**
-         * Alterna la reproducci¨®n de la m¨²sica de fondo y actualiza el ¨ªcono del bot¨®n.
+         * Alterna la reproducción de la música de fondo y actualiza el ¨ªcono del botón.
          */
         function toggleBackgroundMusic() {
             if (isMusicPlaying) {
                 audioFondo.pause();
-                toggleMusicBtn.textContent = '”9ã7'; 
+                toggleMusicBtn.textContent = '🔈'; 
             } else {
                 audioFondo.volume = 0.4; 
                 audioFondo.play().catch(e => console.warn("Error al iniciar la m¨²sica de fondo:", e));
-                toggleMusicBtn.textContent = '”9ä0'; 
+                toggleMusicBtn.textContent = '🔊'; 
             }
             isMusicPlaying = !isMusicPlaying; 
             localStorage.setItem('memoryGameMusicState', isMusicPlaying); 
         }
 
         /**
-         * Aplica un efecto de "moneda" a la puntuaci¨®n al ganar un punto.
+         * Aplica un efecto de "moneda" a la puntuación al ganar un punto.
          */
         function animateScoreGain() {
             scoreValueElement.classList.add('score-boost');
@@ -487,11 +487,11 @@
             if (savedMusicState === 'true') {
                 isMusicPlaying = true;
                 audioFondo.volume = 0.4;
-                toggleMusicBtn.textContent = '”9ä0';
+                toggleMusicBtn.textContent = '”🔊';
             } else {
                 isMusicPlaying = false;
                 audioFondo.pause();
-                toggleMusicBtn.textContent = '”9ã7';
+                toggleMusicBtn.textContent = '🔈';
             }
         }
 
@@ -798,7 +798,7 @@
             levelUpScreen.innerHTML = `
                 <span class="brain-icon" style="margin-bottom: 20px;">🧠</span>
                 
-                <h2>0„3Nivel ${oldLevel} Completado!</h2>
+                <h2>¡Nivel ${oldLevel} Completado!</h2>
                 <p>Puntuación actual: **${score}**</p>
                 <p>¡Has ganado 1 Comodín! Tienes **${wildcards}**.</p>
                 <p style="font-size: 1.8rem; font-weight: bold; color: #ffeb3b; margin-top: 20px;">
