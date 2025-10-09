@@ -404,18 +404,18 @@
         </div>
         <div class="game-board" id="game-board">
              <div class="level-effect-overlay" id="level-overlay">
-                <span class="brain-icon">•0á8</span>
+                <span class="brain-icon">🧠</span>
             </div>
         </div>
 
         <div class="controls">
-            <button id="wildcard-btn" onclick="useWildcard()">7¿8 Usar Comod¨ªn</button> 
-            <button onclick="window.location.href='canje.html'">”9Ã6 Canjear Premios</button>
+            <button id="wildcard-btn" onclick="useWildcard()">✨ Usar Comodín</button> 
+            <button onclick="window.location.href='canje.html'">🏆 Canjear Premios</button>
         </div>
     </div>
 
   <div style="margin-top: 30px; font-size: 0.9rem;">
-    <a href="privacidad.html" style="color: #ffeb3b; text-decoration: none;">Pol¨ªticas de Privacidad</a>
+    <a href="privacidad.html" style="color: #ffeb3b; text-decoration: none;">Políticas de Privacidad</a>
 </div>
 
     
@@ -486,11 +486,11 @@
         function toggleBackgroundMusic() {
             if (isMusicPlaying) {
                 audioFondo.pause();
-                toggleMusicBtn.textContent = '”9ã8'; 
+                toggleMusicBtn.textContent = '🔈'; 
             } else {
                 audioFondo.volume = 0.4; 
-                audioFondo.play().catch(e => console.warn("Error al iniciar la m¨²sica de fondo:", e));
-                toggleMusicBtn.textContent = '”9ä0'; 
+                audioFondo.play().catch(e => console.warn("Error al iniciar la música de fondo:", e));
+                toggleMusicBtn.textContent = '🔊'; 
             }
             isMusicPlaying = !isMusicPlaying; 
             localStorage.setItem('memoryGameMusicState', isMusicPlaying); 
@@ -569,11 +569,11 @@
             if (savedMusicState === 'true') {
                 isMusicPlaying = true;
                 audioFondo.volume = 0.4;
-                toggleMusicBtn.textContent = '”9ä0';
+                toggleMusicBtn.textContent = '🔊';
             } else {
                 isMusicPlaying = false;
                 audioFondo.pause();
-                toggleMusicBtn.textContent = '”9ã8';
+                toggleMusicBtn.textContent = '🔈';
             }
         }
 
@@ -732,7 +732,7 @@
                     // No coinciden - voltear de nuevo
                     setTimeout(() => {
                         
-                        showFeedback("0„3No!", 'fail'); 
+                        showFeedback("¡No!", 'fail'); 
 
                         flippedCards[0].classList.add('fail-match');
                         flippedCards[1].classList.add('fail-match');
@@ -768,7 +768,7 @@
             wildcardDisplay.textContent = wildcards;
             saveGameData();
             
-            showFeedback("7¿8 Comod¨ªn Activo! (+4 Pts)", 'wildcard');
+            showFeedback(¡Comodín Activo! (+4 Pts)", 'wildcard');
 
             const allUnmatchedCards = Array.from(gameBoard.querySelectorAll('.card:not(.matched)'));
             
@@ -791,7 +791,7 @@
             }
             
             if (!card1 || !card2) {
-                console.error("No se pudo encontrar una pareja con el comod¨ªn.");
+                console.error("No se pudo encontrar una pareja con el comodín.");
                 canFlip = true;
                 wildcardBtn.disabled = (wildcards <= 0);
                 return;
@@ -877,8 +877,8 @@
                 <span class="brain-icon" style="margin-bottom: 20px;">•0á8</span>
                 
                 <h2>0„3Nivel ${oldLevel} Completado!</h2>
-                <p>Puntuaci¨®n actual: **${score}**</p>
-                <p class="reward">0„3Has ganado 1 Comod¨ªn! Tienes **${wildcards}**.</p>
+                <p>Puntuación actual: **${score}**</p>
+                <p class="reward">¡Has ganado 1 Comodín! Tienes **${wildcards}**.</p>
                 <p style="font-size: 1.8rem; font-weight: bold; color: #ffeb3b; margin-top: 20px;">
                     ${levelMessage}
                 </p>
