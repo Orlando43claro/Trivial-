@@ -21,6 +21,7 @@
             --accent-color: #ff4081; /* Usado para botones y progreso */
             --match-color: #4caf50;
             --wildcard-color: #ff9800;
+            --control-color: #ffeb3b; /* NUEVO: Color unificado para botones de control */
         }
 
         * {
@@ -92,7 +93,7 @@
         }
         /* ==================================== */
 
-        /* === INDICADOR DE PROGRESO DEL NIVEL (NUEVO) === */
+        /* === INDICADOR DE PROGRESO DEL NIVEL === */
         .progress-bar-container {
             width: 90%;
             max-width: 600px; 
@@ -107,7 +108,7 @@
         .progress-bar {
             height: 100%;
             width: 0%;
-            background: linear-gradient(90deg, var(--accent-color), #ffeb3b); 
+            background: linear-gradient(90deg, var(--accent-color), var(--control-color)); 
             transition: width 0.5s ease-out;
             border-radius: 15px;
         }
@@ -122,30 +123,41 @@
             background-color: rgba(255, 255, 255, 0.1);
             border-radius: 10px;
             position: relative;
+            /* NUEVO: Borde LED dinámico */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5), 
+                        0 0 20px var(--primary-color), 
+                        0 0 30px var(--secondary-color);
+            animation: led-border 4s infinite alternate; 
+        }
+
+        /* NUEVO: Animación del Borde LED */
+        @keyframes led-border {
+            0% { box-shadow: 0 0 10px rgba(0, 0, 0, 0.5), 0 0 20px var(--primary-color), 0 0 30px var(--secondary-color); }
+            50% { box-shadow: 0 0 10px rgba(0, 0, 0, 0.5), 0 0 20px var(--accent-color), 0 0 30px var(--wildcard-color); }
+            100% { box-shadow: 0 0 10px rgba(0, 0, 0, 0.5), 0 0 20px var(--secondary-color), 0 0 30px var(--primary-color); }
         }
         
         /* === PERSONALIZACIÓN DE LAS CARTAS (MEJORADO) === */
         .card {
             height: 80px;
-            border-radius: 10px; /* Bordes redondeados */
+            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 1.5rem;
             cursor: pointer;
-            transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Volteo más dramático */
+            transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             color: white;
             font-weight: bold;
             backface-visibility: hidden;
             transform-style: preserve-3d;
             position: relative;
-            /* Borde más grueso */
             border: 3px solid rgba(255, 255, 255, 0.5); 
         }
 
         .card.matched {
-             box-shadow: 0 0 15px #ffeb3b, 0 4px 8px rgba(0, 0, 0, 0.3); /* Resplandor al emparejar */
+             box-shadow: 0 0 15px var(--control-color), 0 4px 8px rgba(0, 0, 0, 0.3);
         }
         /* ==================================== */
         
@@ -200,32 +212,32 @@
         }
         
         .controls button {
-            color: white;
+            color: #1a237e; /* Color de texto más oscuro para contrastar con el amarillo */
             border: none;
             padding: 12px 25px;
             font-size: 1rem;
             border-radius: 50px;
             cursor: pointer;
             transition: all 0.3s;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
             font-weight: bold;
             margin: 0; 
+            background-color: var(--control-color); /* Color unificado */
         }
         
-        /* === ESTILOS DINÁMICOS DEL BOTÓN COMODÍN (NUEVO) === */
+        /* === ESTILOS DINÁMICOS DEL BOTÓN COMODÍN (MEJORADO) === */
         .controls button#wildcard-btn {
-            background-color: var(--accent-color); /* Estado disponible */
-            font-size: 1.2rem;
             min-width: 160px;
         }
         
         .controls button#wildcard-btn.active {
             background-color: var(--wildcard-color); /* Naranja/Esperando */
             box-shadow: 0 0 15px var(--wildcard-color);
+            color: white;
         }
         
         .controls button:hover:not(:disabled) {
-            background-color: #f50057;
+            background-color: #ffc107; /* Tonalidad diferente de amarillo */
             transform: translateY(-2px);
         }
         
@@ -233,6 +245,7 @@
             background-color: #9c27b0; 
             cursor: not-allowed;
             opacity: 0.7;
+            color: white;
         }
         /* ==================================== */
 
@@ -246,7 +259,7 @@
         }
 
         .audio-control button {
-            background-color: rgba(0, 0, 0, 0.3);
+            background-color: rgba(0, 0, 0, 0.3); 
             color: white;
             border: none;
             border-radius: 50%;
@@ -259,6 +272,7 @@
             justify-content: center;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
             transition: background-color 0.2s;
+            padding: 0;
         }
 
         .audio-control button:hover {
@@ -271,7 +285,7 @@
             font-size: 6rem;
             animation: brain-float 1.5s infinite alternate ease-in-out, 
                        brain-scale 0.5s ease-out;
-            color: #ffeb3b;
+            color: var(--control-color);
             text-shadow: 0 0 15px rgba(255, 235, 59, 0.8);
         }
 
@@ -303,7 +317,7 @@
         .level-up h2 {
             font-size: 3rem;
             margin-bottom: 10px;
-            color: #ffeb3b;
+            color: var(--control-color);
             text-shadow: 2px 2px 5px rgba(0,0,0,0.5);
         }
         
@@ -332,12 +346,16 @@
                 height: 40px;
                 font-size: 1.3rem;
             }
+            
+            /* AJUSTE PARA MANTENER LOS CONTROLES HORIZONTALES */
             .controls {
-                flex-direction: column;
+                flex-direction: row; /* Asegura la alineación horizontal */
+                flex-wrap: wrap; 
                 gap: 10px;
             }
-            .controls button#wildcard-btn {
-                min-width: auto;
+            .controls button {
+                flex-grow: 1; 
+                min-width: unset; 
             }
         }
     </style>
@@ -348,7 +366,7 @@
 
     <audio id="audioFondo" src="fondo.mp3" loop></audio> 
     <audio id="audioClick" src="primero.mp3"></audio> 
-    <div class="audio-control">
+    <audio id="audioLevelUp" src="nivel.mp3"></audio> <div class="audio-control">
         <button id="toggle-music-btn">🔊 </button>
     </div>
 
@@ -388,7 +406,7 @@
     </div>
 
   <div style="margin-top: 30px; font-size: 0.9rem;">
-    <a href="privacidad.html" style="color: #ffeb3b; text-decoration: none;">Políticas de Privacidad</a>
+    <a href="privacidad.html" style="color: var(--control-color); text-decoration: none;">Políticas de Privacidad</a>
 </div>
 
     
@@ -405,11 +423,12 @@
         const wildcardDisplay = document.getElementById('wildcards'); 
         const wildcardBtn = document.getElementById('wildcard-btn'); 
         const feedbackMessage = document.getElementById('feedback-message'); 
-        const progressBar = document.getElementById('level-progress'); // Elemento de la barra de progreso
+        const progressBar = document.getElementById('level-progress');
         
         // AUDIO ELEMENTS
         const audioFondo = document.getElementById('audioFondo');
         const audioClick = document.getElementById('audioClick');
+        const audioLevelUp = document.getElementById('audioLevelUp'); // NUEVO: Audio de subida de nivel
         const toggleMusicBtn = document.getElementById('toggle-music-btn');
         let isMusicPlaying = false; 
         
@@ -421,9 +440,9 @@
         let wildcards = 0; 
         let flippedCards = [];
         let matchedPairs = 0;
-        let totalPairsInLevel = 5; // Variable para el progreso
+        let totalPairsInLevel = 5; 
         let canFlip = true;
-        let wildcardActive = false; // NUEVO: Estado del comodín
+        let wildcardActive = false; 
         let matchedCardIndices = []; 
 
         const allSymbols = [
@@ -446,6 +465,13 @@
             audioClick.pause();
             audioClick.currentTime = 0;
             audioClick.play().catch(e => console.warn("Error al reproducir el sonido de click:", e));
+        }
+
+        function playSoundLevelUp() {
+            audioLevelUp.pause();
+            audioLevelUp.currentTime = 0;
+            audioLevelUp.volume = 0.8; 
+            audioLevelUp.play().catch(e => console.warn("Error al reproducir el sonido de nivel:", e));
         }
 
         function toggleBackgroundMusic() {
@@ -583,6 +609,17 @@
         // ====================================================================
         // === LOGICA DEL JUEGO ===
         // ====================================================================
+        
+        /**
+         * Maneja la actualización de la puntuación, asegurando que el display
+         * y el almacenamiento se mantengan sincronizados, y activa la animación.
+         * @param {number} points - Puntos a añadir (puede ser positivo o negativo).
+         */
+        function updateScore(points) {
+            score += points;
+            animateScoreGain();
+            saveGameData();
+        }
 
         function clearGameBoardCards() {
             const cards = gameBoard.querySelectorAll('.card');
@@ -595,47 +632,47 @@
             flippedCards = [];
             
             const pairsCount = Math.min(5 + (level - 1), MAX_PAIRS); 
-            totalPairsInLevel = pairsCount; // Actualiza la variable de pares totales
+            totalPairsInLevel = pairsCount; 
             
+            // Recalcula matchedPairs basado en los datos guardados, si existen.
             matchedPairs = matchedCardIndices.length / 2;
             const totalCards = pairsCount * 2;
             
-            updateStatsDisplays(); // Actualiza la barra de progreso al inicio del nivel
+            updateStatsDisplays(); 
 
             if (matchedPairs === pairsCount) {
-                levelUp(false);
+                // Si ya estaba completado al cargar, subir de nivel sin pantalla.
+                levelUp(false); 
                 return;
             }
 
-            // Si se carga un nuevo layout, se reinician los intentos
-            if (localStorage.getItem('memoryCardLayout') === null || JSON.parse(localStorage.getItem('memoryCardLayout')).length !== totalCards) {
-                 attempts = 0;
-            }
-            
-            attemptsDisplay.textContent = attempts;
-            
-            // --- Logica de Selección de Símbolos ---
-            let levelSymbols;
-            const currentMaxPairs = Math.min(5 + (level - 1), MAX_PAIRS);
-
-            if (currentMaxPairs === MAX_PAIRS) {
-                 const shuffledAllSymbols = shuffleArray([...allSymbols]);
-                 levelSymbols = shuffledAllSymbols.slice(0, MAX_PAIRS); 
-            } else {
-                levelSymbols = allSymbols.slice(0, currentMaxPairs); 
-            }
-
-            const cardValues = [...levelSymbols, ...levelSymbols];
-            
+            // Lógica para reiniciar intentos y layout si el nivel o el layout guardado es diferente.
             let currentLayout = JSON.parse(localStorage.getItem('memoryCardLayout'));
             
             if (currentLayout === null || currentLayout.length !== totalCards) {
+                 attempts = 0; // Reinicia intentos para un nuevo layout/nivel
+                 
+                 // --- Lógica de Selección de Símbolos ---
+                 let levelSymbols;
+                 const currentMaxPairs = Math.min(5 + (level - 1), MAX_PAIRS);
+
+                 if (currentMaxPairs === MAX_PAIRS) {
+                      const shuffledAllSymbols = shuffleArray([...allSymbols]);
+                      levelSymbols = shuffledAllSymbols.slice(0, MAX_PAIRS); 
+                 } else {
+                     levelSymbols = allSymbols.slice(0, currentMaxPairs); 
+                 }
+
+                 const cardValues = [...levelSymbols, ...levelSymbols];
                  const shuffledCards = shuffleArray(cardValues);
                  currentLayout = shuffledCards;
+                 
                  localStorage.setItem('memoryCardLayout', JSON.stringify(currentLayout));
                  matchedCardIndices = [];
                  saveGameData();
             }
+
+            attemptsDisplay.textContent = attempts;
 
             const columns = Math.min(Math.ceil(Math.sqrt(totalCards)), 8);
             gameBoard.style.gridTemplateColumns = `repeat(${columns}, 1fr)`;
@@ -662,7 +699,7 @@
                     card.addEventListener('click', () => flipCard(card));
                 }
                 
-                gameBoard.appendChild(card); // Añadimos directamente al final del game-board
+                gameBoard.appendChild(card);
             });
             
             updateComodinButtonAppearance();
@@ -684,34 +721,34 @@
                 canFlip = false;
                 attempts++;
                 
-                updateStatsDisplays(); // Actualiza intentos y el estado del comodín
+                updateStatsDisplays(); 
                 saveGameData(); 
 
-                if (flippedCards[0].dataset.symbol === flippedCards[1].dataset.symbol) {
+                const [cardA, cardB] = flippedCards;
+
+                if (cardA.dataset.symbol === cardB.dataset.symbol) {
                     // Coinciden (Pareja)
                     setTimeout(() => {
                         
                         showFeedback("¡Pareja!", 'match'); 
                         
                         // Añadir estilos de emparejamiento
-                        flippedCards[0].classList.add('matched');
-                        flippedCards[1].classList.add('matched');
+                        cardA.classList.add('matched');
+                        cardB.classList.add('matched');
                         
                         // Registrar índices de emparejamiento
-                        matchedCardIndices.push(parseInt(flippedCards[0].dataset.index));
-                        matchedCardIndices.push(parseInt(flippedCards[1].dataset.index));
+                        matchedCardIndices.push(parseInt(cardA.dataset.index));
+                        matchedCardIndices.push(parseInt(cardB.dataset.index));
                         
                         matchedPairs++;
                         
-                        score += 1; 
-                        animateScoreGain();
-                        saveGameData();
-
-                        // Deshabilitar click
-                        flippedCards[0].removeEventListener('click', flipCard);
-                        flippedCards[1].removeEventListener('click', flipCard);
+                        updateScore(1); // Usando la función auxiliar
                         
-                        updateStatsDisplays(); // Actualiza la barra de progreso
+                        // Deshabilitar click
+                        cardA.removeEventListener('click', flipCard);
+                        cardB.removeEventListener('click', flipCard);
+                        
+                        updateStatsDisplays(); 
                         
                         if (matchedPairs === totalPairsInLevel) {
                             setTimeout(levelUp, 800);
@@ -726,8 +763,8 @@
                         
                         showFeedback("¡No!", 'fail'); 
                         
-                        flippedCards[0].querySelector('.card-inner').classList.remove('flipped');
-                        flippedCards[1].querySelector('.card-inner').classList.remove('flipped');
+                        cardA.querySelector('.card-inner').classList.remove('flipped');
+                        cardB.querySelector('.card-inner').classList.remove('flipped');
                         
                         flippedCards = [];
                         canFlip = true;
@@ -747,7 +784,7 @@
 
             canFlip = false;
             wildcardActive = true; 
-            updateComodinButtonAppearance(); // Pone el botón en estado '⏳'
+            updateComodinButtonAppearance(); 
 
             showFeedback("¡Comodín Activo!", 'match');
 
@@ -755,6 +792,8 @@
             const allUnmatchedCards = Array.from(gameBoard.querySelectorAll('.card:not(.matched)'));
             
             if (allUnmatchedCards.length < 2) {
+                // No hay suficientes cartas para usar el comodín.
+                console.warn("No quedan suficientes cartas para usar el comodín.");
                 canFlip = true;
                 wildcardActive = false;
                 updateComodinButtonAppearance();
@@ -775,10 +814,11 @@
             }
             
             if (!card1 || !card2) {
-                canFlip = true;
-                wildcardActive = false;
-                updateComodinButtonAppearance();
-                return;
+                 // Esto no debería pasar si allUnmatchedCards.length >= 2, pero como seguridad.
+                 canFlip = true;
+                 wildcardActive = false;
+                 updateComodinButtonAppearance();
+                 return;
             }
 
             // 2. Simular el volteo y emparejamiento con animación 
@@ -790,16 +830,19 @@
                 card1.classList.add('matched');
                 card2.classList.add('matched');
 
+                // Eliminar el event listener (ya que están emparejadas)
+                card1.removeEventListener('click', flipCard);
+                card2.removeEventListener('click', flipCard);
+                
                 // Actualizar datos del juego
                 matchedCardIndices.push(parseInt(card1.dataset.index));
                 matchedCardIndices.push(parseInt(card2.dataset.index));
 
                 matchedPairs++;
                 
-                score += 2; // Puntuación extra por comodín
+                updateScore(2); // Puntuación extra por comodín
                 wildcards--;
-                animateScoreGain();
-                saveGameData();
+                saveGameData(); // Guardar el nuevo número de comodines
                 
                 // Finalizar el uso del comodín
                 wildcardActive = false; 
@@ -816,6 +859,9 @@
 
         
         function levelUp(showScreen = true) {
+            
+            playSoundLevelUp(); // REPRODUCE el audio de subida de nivel
+            
             const oldLevel = level;
             
             // Seguimiento GA4
@@ -865,7 +911,7 @@
                 <h2>¡Nivel ${oldLevel} Completado!</h2>
                 <p>Puntuación actual: **${score}**</p>
                 <p>¡Has ganado 1 Comodín! Tienes **${wildcards}**.</p>
-                <p style="font-size: 1.8rem; font-weight: bold; color: #ffeb3b; margin-top: 20px;">
+                <p style="font-size: 1.8rem; font-weight: bold; color: var(--control-color); margin-top: 20px;">
                     ${levelMessage}
                 </p>
             `;
