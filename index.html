@@ -14,7 +14,6 @@
       gtag('config', 'TU_ID_DE_MEDICION');
     </script>
     <style>
-        /* Estilos globales y de cuerpo se mantienen */
         * {
             box-sizing: border-box;
             margin: 0;
@@ -51,7 +50,7 @@
             background-color: rgba(255, 255, 255, 0.2);
             border-radius: 10px;
             padding: 10px;
-            margin: 20px 0 10px; 
+            margin: 20px 0;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             position: relative;
         }
@@ -72,41 +71,7 @@
             transition: transform 0.2s;
         }
         
-        /* === ESTILOS DE BARRA DE PROGRESO === */
-        #progress-bar-container {
-            width: 100%;
-            max-width: 900px;
-            height: 25px;
-            background-color: rgba(0, 0, 0, 0.3);
-            border-radius: 12px;
-            overflow: hidden;
-            margin-bottom: 20px;
-            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
-        }
-
-        #progress-bar {
-            height: 100%;
-            width: 0%;
-            background-color: #00e676; 
-            transition: width 0.5s ease-in-out;
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        #progress-text {
-            color: white;
-            font-size: 0.9rem; 
-            font-weight: bold;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
-            position: absolute;
-            width: 100%;
-            text-align: center;
-        }
-        /* ==================================== */
-
-        /* Estilos de animaciÂ¨Â®n de puntos, juego, y cartas se mantienen */
+        /* === ESTILOS DE ANIMACI0100·37N DE PUNTOS === */
         .score-boost {
             animation: score-jump 0.4s ease-out;
         }
@@ -116,6 +81,7 @@
             50% { transform: scale(1.3) translateY(-5px); }
             100% { transform: scale(1); }
         }
+        /* ==================================== */
 
         .game-board {
             display: grid;
@@ -126,16 +92,6 @@
             background-color: rgba(255, 255, 255, 0.1);
             border-radius: 10px;
             position: relative;
-        }
-        
-        .card.fail-match {
-            animation: card-shake 0.4s;
-        }
-
-        @keyframes card-shake {
-            0%, 100% { transform: translateX(0); }
-            20%, 60% { transform: translateX(-5px); }
-            40%, 80% { transform: translateX(5px); }
         }
         
         .card {
@@ -198,11 +154,11 @@
             cursor: default;
         }
 
-        /* ESTILOS CLAVE: AlineaciÂ¨Â®n horizontal y tamaÂ0Å 9o de letra pequeÂ0Å 9a */
         .controls {
             margin-top: 15px;
+            /* CAMBIO: Usar Flexbox para alinear botones horizontalmente */
             display: flex;
-            justify-content: center; /* Alinea horizontalmente al centro */
+            justify-content: center; 
             gap: 15px; 
         }
         
@@ -210,14 +166,14 @@
             background-color: #ff4081;
             color: white;
             border: none;
-            padding: 10px 20px; 
-            font-size: 0.9rem; /* Letra mÂ¨Â¢s pequeÂ0Å 9a */
+            padding: 12px 25px;
+            font-size: 1rem;
             border-radius: 50px;
             cursor: pointer;
             transition: all 0.3s;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             font-weight: bold;
-            margin: 0;
+            margin: 0; /* Aseguramos que el margin horizontal se controle por 'gap' */
         }
         
         .controls button:hover:not(:disabled) {
@@ -231,7 +187,7 @@
             opacity: 0.7;
         }
 
-        /* Estilos de control de audio se mantienen */
+        /* === ESTILOS DE CONTROL DE AUDIO === */
         .audio-control {
             position: fixed;
             top: 20px;
@@ -258,12 +214,15 @@
         .audio-control button:hover {
             background-color: rgba(0, 0, 0, 0.5);
         }
-        
-        /* Estilos de Level Up se mantienen */
+        /* ==================================== */
+
+        /* === ESTILOS DE EFECTO DE NIVEL === */
+        /* El overlay original se mantiene para otros efectos, pero su funcionalidad de LEVEL-UP se mueve al .level-up */
         .level-effect-overlay {
-            display: none; 
+            display: none; /* Ocultamos el overlay original, ya no se usa para LevelUp */
         }
         
+        /* ESTILOS CLAVE PARA EL ICONO DEL CEREBRO ANIMADO */
         .brain-icon {
             font-size: 6rem;
             animation: brain-float 1.5s infinite alternate ease-in-out, 
@@ -281,40 +240,21 @@
             0% { transform: scale(0); }
             100% { transform: scale(1); }
         }
-        
+        /* ==================================== */
+
         .level-up {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.95);
+            background-color: rgba(0, 0, 0, 0.9); /* Un poco m¡§0„4s oscuro */
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             z-index: 100;
             text-align: center;
-            opacity: 0;
-            animation: level-up-fade 0.5s forwards;
-        }
-
-        @keyframes level-up-fade {
-            to { opacity: 1; }
-        }
-
-        .level-up .reward {
-            font-size: 1.3rem;
-            color: #00e676;
-            font-weight: bold;
-            margin: 10px 0;
-            animation: reward-pulse 1.5s infinite;
-        }
-
-        @keyframes reward-pulse {
-            0% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.1); opacity: 0.8; }
-            100% { transform: scale(1); opacity: 1; }
         }
         
         .level-up h2 {
@@ -329,7 +269,7 @@
             margin-bottom: 10px;
         }
         
-        /* Responsive adjustments se mantienen */
+        /* Responsive adjustments */
         @media (max-width: 480px) {
             .card {
                 height: 60px;
@@ -349,16 +289,9 @@
                 height: 40px;
                 font-size: 1.3rem;
             }
-            /* En mÂ¨Â®vil, los botones vuelven a alineaciÂ¨Â®n vertical por diseÂ0Å 9o responsive */
             .controls {
                 flex-direction: column;
                 gap: 10px;
-            }
-            .controls button { 
-                font-size: 0.8rem; 
-            }
-            #progress-text {
-                font-size: 0.7rem;
             }
         }
     </style>
@@ -369,14 +302,12 @@
 
     <audio id="audioFondo" src="fondo.mp3" loop></audio> 
     <audio id="audioClick" src="primero.mp3"></audio> 
-    <audio id="audioLevelUp" src="nivel.mp3"></audio> 
-
     <div class="audio-control">
-        <button id="toggle-music-btn">ðŸ”Š</button>
+        <button id="toggle-music-btn">”9ä0</button>
     </div>
 
     <div class="container">
-        <h2>ðŸ§  Ascenso Mental ðŸ§ </h2>
+        <h2>•0á8 Ascenso Mental •0á8</h2>
         
         <div class="stats">
             <div class="stat-box">
@@ -384,7 +315,7 @@
                 <div class="stat-value" id="level">1</div>
             </div>
             <div class="stat-box">
-                <div class="stat-label">PuntuaciÃ³n</div>
+                <div class="stat-label">Puntuaci¨®n</div>
                 <div class="stat-value" id="score">0</div>
             </div>
             <div class="stat-box">
@@ -395,33 +326,28 @@
                 <div class="stat-label">Comodines</div>
                 <div class="stat-value" id="wildcards">0</div>
             </div>
-        </div>
-
-        <div id="progress-bar-container">
-            <div id="progress-bar">
-                <span id="progress-text">0 / 10 Parejas</span>
             </div>
-        </div>
+        
         <div class="game-board" id="game-board">
              <div class="level-effect-overlay" id="level-overlay">
-                <span class="brain-icon">ðŸ§ </span>
+                <span class="brain-icon">•0á8</span>
             </div>
         </div>
 
         <div class="controls">
-            <button id="wildcard-btn" onclick="useWildcard()">âœ¨ Usar ComodÃ­n</button> 
-            <button onclick="window.location.href='canje.html'">ðŸ† Canjear Premios</button>
+            <button id="wildcard-btn" onclick="useWildcard()">7¿8 Usar Comod¨ªn</button> 
+            <button onclick="window.location.href='canje.html'">”9Ã6 Canjear Premios</button>
         </div>
     </div>
 
   <div style="margin-top: 30px; font-size: 0.9rem;">
-    <a href="privacidad.html" style="color: #ffeb3b; text-decoration: none;">PolÃ­ticas de Privacidad</a>
+    <a href="privacidad.html" style="color: #ffeb3b; text-decoration: none;">Pol¨ªticas de Privacidad</a>
 </div>
 
     
     <script>
         // ====================================================================
-        // === CONFIGURACIÂ0Ë†7N Y VARIABLES ===
+        // === CONFIGURACI0ˆ7N Y VARIABLES ===
         // ====================================================================
         
         const gameBoard = document.getElementById('game-board');
@@ -429,18 +355,14 @@
         const scoreDisplay = document.getElementById('score');
         const scoreValueElement = document.getElementById('score').closest('.stat-value');
         const attemptsDisplay = document.getElementById('attempts');
-        const levelOverlay = document.getElementById('level-overlay');
+        const levelOverlay = document.getElementById('level-overlay'); // Se mantiene pero est¡§0„4 oculto en CSS
         const wildcardDisplay = document.getElementById('wildcards'); 
         const wildcardBtn = document.getElementById('wildcard-btn'); 
         const feedbackMessage = document.getElementById('feedback-message'); 
-
-        const progressBar = document.getElementById('progress-bar');
-        const progressText = document.getElementById('progress-text');
         
         // AUDIO ELEMENTS
         const audioFondo = document.getElementById('audioFondo');
         const audioClick = document.getElementById('audioClick');
-        const audioLevelUp = document.getElementById('audioLevelUp'); 
         const toggleMusicBtn = document.getElementById('toggle-music-btn');
         let isMusicPlaying = false; 
         
@@ -454,16 +376,16 @@
         let matchedPairs = 0;
         let canFlip = true;
         let matchedCardIndices = []; 
-        let totalPairsInLevel = 0; 
 
         const allSymbols = [
-            'â€¢0Ã™2', 'â€9ÃŽ3', 'â€9Ã2', 'â€¢0Ã˜6', 'â€9ÃŽ2', 'â€9ÃŽ8', 'â€9Ã3', 'â€9Ã4', 'â€9Ã4', 'â€9ÃŽ1', 
-            'â€¢0Ã˜3', 'â€9ÃŽ0', 'â€9ÃŽ9', 'â€9Ã0', 'â€9ÃŽ7', 'â€9Ã‹4', 'â€9Ã3', 'â€¢0Ã˜7', 'â€¢0Ã™1', 'â€¢0Ã˜8', 
-            'â€¢0Ã™3', 'â€9ÃŒ1', 'â€9ÃŒ3', 'â€9ÃŒ4', 'â€9ÃŒ6', 'â€9ÃŽ5', 'â€9Ã8', 'â€9ÃŒ8', 'â€9ÃŠ7', 'â€9ÃŠ4', 
-            'â€9â€œ6â€9â€¢3', 'â€9â€œ7â€9â€¢3', 'â€9â€œ8â€9â€7', 'â€9â€œ8â€9â€¢0', 'â€9â€0â€9â€¢4', 'â€9â€1â€9â€¢3', 'â€9â€2â€9â€œ7', 'â€9â€4â€9â€¢5', 'â€9â€5â€9â€¢1', 'â€9â€8â€9â€¢9', 
-            'â€9â€¢6â€9â€¢4', 'â€9â€œ8â€9â€œ6', 'â€9â€œ9â€9â€0', 'â€9â€œ8â€9â€9', 'â€9â€4â€9â€9', 'â€9â€¢1â€9â€0', 'â€9â€¢1â€9â€¢5', 'â€9â€¢3â€9â€¢6', 'â€9â€6â€9â€¢3', 'â€9â€“1â€9â€œ6', 
-            'â€¢0Â7', 'â€¢0Â5', 'â€¢0Å’6', 'â€9Ã„4â€ž1â€š5', 'â€¢0Â3', 'â€¢0Â1', 'â€¢0Â2', 'â€¢0Å½0', 'â€¢0Å½2', 'â€¢0â€”1', 
-            'â€¢0Â4', 'â€¢0Å½8', 'Â7Â¼6â€ž1â€š5', 'â€¢0â€¹4', 'â€¢0â€¹5', 'â€¢0â€¹6', 'â€¢0â€¹8', 'â€¢0Å’0', 'â€¢0Å’1', 'â€¢0â€¹7' 
+
+            '•0Ù2', '”9Î3', '”9Ï2', '•0Ø6', '”9Î2', '”9Î8', '”9Ï3', '”9Ï4', '”9Í4', '”9Î1', 
+            '•0Ø3', '”9Î0', '”9Î9', '”9Ï0', '”9Î7', '”9Ë4', '”9Í3', '•0Ø7', '•0Ù1', '•0Ø8', 
+            '•0Ù3', '”9Ì1', '”9Ì3', '”9Ì4', '”9Ì6', '”9Î5', '”9Í8', '”9Ì8', '”9Ê7', '”9Ê4', 
+            '”9“6”9•3', '”9“7”9•3', '”9“8”9”7', '”9“8”9•0', '”9”0”9•4', '”9”1”9•3', '”9”2”9“7', '”9”4”9•5', '”9”5”9•1', '”9”8”9•9', 
+            '”9•6”9•4', '”9“8”9“6', '”9“9”9”0', '”9“8”9”9', '”9”4”9”9', '”9•1”9”0', '”9•1”9•5', '”9•3”9•6', '”9”6”9•3', '”9–1”9“6', 
+            '•07', '•05', '•0Œ6', '”9Ä4„1‚5', '•03', '•01', '•02', '•0Ž0', '•0Ž2', '•0—1', 
+            '•04', '•0Ž8', '7¼6„1‚5', '•0‹4', '•0‹5', '•0‹6', '•0‹8', '•0Œ0', '•0Œ1', '•0‹7' 
         ];
 
 
@@ -471,31 +393,34 @@
         // === FUNCIONES DE AUDIO Y EFECTOS ===
         // ====================================================================
         
+        /**
+         * Reproduce el sonido de click de carta.
+         */
         function playSoundClick() {
             audioClick.pause();
             audioClick.currentTime = 0;
             audioClick.play().catch(e => console.warn("Error al reproducir el sonido de click:", e));
         }
 
-        function playSoundLevelUp() {
-            audioLevelUp.pause();
-            audioLevelUp.currentTime = 0;
-            audioLevelUp.play().catch(e => console.warn("Error al reproducir el sonido de level up:", e));
-        }
-
+        /**
+         * Alterna la reproducci¨®n de la m¨²sica de fondo y actualiza el ¡§0„9cono del bot¨®n.
+         */
         function toggleBackgroundMusic() {
             if (isMusicPlaying) {
                 audioFondo.pause();
-                toggleMusicBtn.textContent = 'ðŸ”ˆ'; 
+                toggleMusicBtn.textContent = '”9ã8'; 
             } else {
                 audioFondo.volume = 0.4; 
-                audioFondo.play().catch(e => console.warn("Error al iniciar la mÃºsica de fondo:", e));
-                toggleMusicBtn.textContent = 'ðŸ”Š'; 
+                audioFondo.play().catch(e => console.warn("Error al iniciar la m¡§0…5sica de fondo:", e));
+                toggleMusicBtn.textContent = '”9ä0'; 
             }
             isMusicPlaying = !isMusicPlaying; 
             localStorage.setItem('memoryGameMusicState', isMusicPlaying); 
         }
 
+        /**
+         * Aplica un efecto de "moneda" a la puntuaci¨®n al ganar un punto.
+         */
         function animateScoreGain() {
             scoreValueElement.classList.add('score-boost');
             setTimeout(() => {
@@ -503,18 +428,16 @@
             }, 400); 
         }
 
+        /**
+         * Muestra un mensaje temporal de feedback.
+         */
         function showFeedback(message, type) {
             feedbackMessage.textContent = message;
             
             if (type === 'match') {
-                feedbackMessage.style.backgroundColor = 'rgba(76, 175, 80, 0.8)';
-                feedbackMessage.style.color = 'white';
+                feedbackMessage.style.backgroundColor = 'rgba(76, 175, 80, 0.8)'; // Verde
             } else if (type === 'fail') {
-                feedbackMessage.style.backgroundColor = 'rgba(244, 67, 54, 0.8)';
-                feedbackMessage.style.color = 'white';
-            } else if (type === 'wildcard') {
-                feedbackMessage.style.backgroundColor = 'rgba(255, 235, 59, 0.8)';
-                feedbackMessage.style.color = 'black';
+                feedbackMessage.style.backgroundColor = 'rgba(244, 67, 54, 0.8)'; // Rojo
             }
             
             feedbackMessage.style.opacity = '1';
@@ -526,11 +449,6 @@
             }, 1000); 
         }
 
-        function updateProgressBar() {
-            const percentage = (matchedPairs / totalPairsInLevel) * 100;
-            progressBar.style.width = `${percentage}%`;
-            progressText.textContent = `${matchedPairs} / ${totalPairsInLevel} Parejas`;
-        }
 
         // ====================================================================
         // === ALMACENAMIENTO LOCAL ===
@@ -566,14 +484,15 @@
                 matchedCardIndices = [];
             }
 
+            // Restaura el estado de la musica
             if (savedMusicState === 'true') {
                 isMusicPlaying = true;
                 audioFondo.volume = 0.4;
-                toggleMusicBtn.textContent = 'ðŸ”Š';
+                toggleMusicBtn.textContent = '¡±”9ä0';
             } else {
                 isMusicPlaying = false;
                 audioFondo.pause();
-                toggleMusicBtn.textContent = 'ðŸ”ˆ';
+                toggleMusicBtn.textContent = '”9ã8';
             }
         }
 
@@ -601,22 +520,23 @@
             flippedCards = [];
             
             const pairsCount = Math.min(5 + (level - 1), MAX_PAIRS); 
-            totalPairsInLevel = pairsCount; 
             
             matchedPairs = matchedCardIndices.length / 2;
             const totalCards = pairsCount * 2;
             
-            if (matchedPairs === totalPairsInLevel) {
+            if (matchedPairs === pairsCount) {
                 levelUp(false);
                 return;
             }
 
+            // Si se carga un nuevo layout, se reinician los intentos
             if (localStorage.getItem('memoryCardLayout') === null || JSON.parse(localStorage.getItem('memoryCardLayout')).length !== totalCards) {
                  attempts = 0;
             }
             
             attemptsDisplay.textContent = attempts;
             
+            // --- Logica de Selecci¨®n de S¨ªmbolos ---
             let levelSymbols;
             const currentMaxPairs = Math.min(5 + (level - 1), MAX_PAIRS);
 
@@ -642,6 +562,7 @@
             const columns = Math.min(Math.ceil(Math.sqrt(totalCards)), 8);
             gameBoard.style.gridTemplateColumns = `repeat(${columns}, 1fr)`;
             
+            // Renderiza las cartas
             currentLayout.forEach((symbol, index) => {
                 const card = document.createElement('div');
                 card.classList.add('card');
@@ -667,8 +588,8 @@
                 gameBoard.insertBefore(card, levelOverlay);
             });
             
+            // Habilitar/Deshabilitar bot¨®n de comod¨ªn al inicio
             wildcardBtn.disabled = (wildcards <= 0);
-            updateProgressBar(); 
         }
         
         function flipCard(card) {
@@ -695,10 +616,7 @@
                     // Coinciden (Pareja)
                     setTimeout(() => {
                         
-                        showFeedback("Â0â€ž3Pareja!", 'match'); 
-                        
-                        flippedCards[0].classList.remove('fail-match');
-                        flippedCards[1].classList.remove('fail-match');
+                        showFeedback("0„3Pareja!", 'match'); 
                         
                         flippedCards[0].classList.add('matched');
                         flippedCards[1].classList.add('matched');
@@ -710,7 +628,6 @@
                         flippedCards[1].querySelector('.card-back').style.backgroundColor = '#4caf50';
                         
                         matchedPairs++;
-                        updateProgressBar(); 
                         
                         score += 1; 
                         scoreDisplay.textContent = score;
@@ -720,7 +637,8 @@
                         flippedCards[0].removeEventListener('click', flipCard);
                         flippedCards[1].removeEventListener('click', flipCard);
                         
-                        if (matchedPairs === totalPairsInLevel) {
+                        const currentPairsCount = Math.min(5 + (level - 1), MAX_PAIRS);
+                        if (matchedPairs === currentPairsCount) {
                             setTimeout(levelUp, 800);
                         }
                         
@@ -732,27 +650,22 @@
                     // No coinciden - voltear de nuevo
                     setTimeout(() => {
                         
-                        showFeedback("Â¡No!", 'fail'); 
-
-                        flippedCards[0].classList.add('fail-match');
-                        flippedCards[1].classList.add('fail-match');
+                        showFeedback("0„3No!", 'fail'); 
                         
                         flippedCards[0].querySelector('.card-inner').classList.remove('flipped');
                         flippedCards[1].querySelector('.card-inner').classList.remove('flipped');
                         
-                        setTimeout(() => {
-                            flippedCards[0].classList.remove('fail-match');
-                            flippedCards[1].classList.remove('fail-match');
-                            flippedCards = [];
-                            canFlip = true;
-                            wildcardBtn.disabled = (wildcards <= 0); 
-                        }, 400); 
-                        
+                        flippedCards = [];
+                        canFlip = true;
+                        wildcardBtn.disabled = (wildcards <= 0); 
                     }, 1000);
                 }
             }
         }
         
+        /**
+         * Activa un comod¨ªn para revelar y emparejar dos cartas no coincidentes.
+         */
         function useWildcard() {
             if (wildcards <= 0 || !canFlip) {
                 if (wildcards <= 0) {
@@ -764,12 +677,14 @@
             canFlip = false;
             wildcardBtn.disabled = true;
 
+            // 1. Deducir un comod¨ªn 
             wildcards--;
             wildcardDisplay.textContent = wildcards;
             saveGameData();
             
-            showFeedback(Â¡ComodÃ­n Activo! (+4 Pts)", 'wildcard');
+            showFeedback("0„3Comod¨ªn Activo!", 'match');
 
+            // 2. Encontrar dos cartas no emparejadas con el mismo s¨ªmbolo 
             const allUnmatchedCards = Array.from(gameBoard.querySelectorAll('.card:not(.matched)'));
             
             if (allUnmatchedCards.length < 2) {
@@ -778,6 +693,7 @@
                 return;
             }
 
+            // Selecciona el primer par que encuentre
             let card1 = null;
             let card2 = null;
 
@@ -791,34 +707,40 @@
             }
             
             if (!card1 || !card2) {
-                console.error("No se pudo encontrar una pareja con el comodÃ­n.");
+                console.error("No se pudo encontrar una pareja con el comod¨ªn.");
                 canFlip = true;
                 wildcardBtn.disabled = (wildcards <= 0);
                 return;
             }
 
+            // 3. Simular el volteo y emparejamiento con animaci¨®n 
+            
             card1.querySelector('.card-inner').classList.add('flipped');
             card2.querySelector('.card-inner').classList.add('flipped');
 
             setTimeout(() => {
+                // Marcar como emparejadas
                 card1.classList.add('matched');
                 card2.classList.add('matched');
 
+                // Aplicar estilos de emparejamiento
                 card1.querySelector('.card-back').style.backgroundColor = '#4caf50';
                 card2.querySelector('.card-back').style.backgroundColor = '#4caf50';
                 
+                // Actualizar datos del juego
                 matchedCardIndices.push(parseInt(card1.dataset.index));
                 matchedCardIndices.push(parseInt(card2.dataset.index));
 
                 matchedPairs++;
-                updateProgressBar(); 
                 
-                score += 4; 
+                score += 2; 
                 scoreDisplay.textContent = score;
                 animateScoreGain();
                 saveGameData();
 
-                if (matchedPairs === totalPairsInLevel) {
+                // Revisar si se termin¨® el nivel
+                const currentPairsCount = Math.min(5 + (level - 1), MAX_PAIRS);
+                if (matchedPairs === currentPairsCount) {
                     setTimeout(levelUp, 800);
                 } else {
                     canFlip = true; 
@@ -831,6 +753,7 @@
         function levelUp(showScreen = true) {
             const oldLevel = level;
             
+            // Seguimiento GA4
             if (typeof gtag === 'function') {
                 gtag('event', 'level_up', {
                     'level': oldLevel,
@@ -844,6 +767,7 @@
             
             level++;
             
+            // Recompensa de Comod¨ªn 
             wildcards++; 
             wildcardDisplay.textContent = wildcards;
 
@@ -859,8 +783,7 @@
                  return;
             }
             
-            playSoundLevelUp();
-            
+            // PANTALLA DE LEVEL UP MEJORADA
             const levelUpScreen = document.createElement('div');
             levelUpScreen.classList.add('level-up');
             
@@ -868,17 +791,17 @@
             const currentPairsCount = Math.min(5 + (level - 1), MAX_PAIRS);
             
             if (currentPairsCount === MAX_PAIRS) {
-                levelMessage = `Â0â€ž3MÂ¨Â¢xima Dificultad! (56 cartas)`;
+                levelMessage = `0„3M¨¢xima Dificultad! (56 cartas)`;
             } else {
                 levelMessage = `Preparando Nivel ${level} (${currentPairsCount} pares)...`;
             }
             
             levelUpScreen.innerHTML = `
-                <span class="brain-icon" style="margin-bottom: 20px;">â€¢0Ã¡8</span>
+                <span class="brain-icon" style="margin-bottom: 20px;">•0á8</span>
                 
-                <h2>Â0â€ž3Nivel ${oldLevel} Completado!</h2>
-                <p>PuntuaciÃ³n actual: **${score}**</p>
-                <p class="reward">Â¡Has ganado 1 ComodÃ­n! Tienes **${wildcards}**.</p>
+                <h2>0„3Nivel ${oldLevel} Completado!</h2>
+                <p>Puntuaci¨®n actual: **${score}**</p>
+                <p>0„3Has ganado 1 Comod¨ªn! Tienes **${wildcards}**.</p>
                 <p style="font-size: 1.8rem; font-weight: bold; color: #ffeb3b; margin-top: 20px;">
                     ${levelMessage}
                 </p>
@@ -892,9 +815,10 @@
                 }
                 canFlip = true;
                 initGame();
-            }, 3000);
+            }, 2500);
         }
         
+        // Mezclar array (Fisher-Yates)
         function shuffleArray(array) {
             const newArray = [...array];
             for (let i = newArray.length - 1; i > 0; i--) {
@@ -908,17 +832,20 @@
         // === INICIO DEL JUEGO Y EVENT LISTENERS ===
         // ====================================================================
 
+        // Evento para el bot¨®n de alternancia de m¨²sica 
         toggleMusicBtn.addEventListener('click', toggleBackgroundMusic);
 
+        // Proceso de inicio
         window.addEventListener('load', () => {
             loadGameData(); 
             initGame();
             
             if (isMusicPlaying) {
-                 audioFondo.play().catch(e => console.warn("Autoplay bloqueado. El usuario debe interactuar para que inicie la mÂ¨Â²sica.", e));
+                 audioFondo.play().catch(e => console.warn("Autoplay bloqueado. El usuario debe interactuar para que inicie la m¡§0…5sica.", e));
             }
         });
         
+        // Evento para guardar el estado de la m¨²sica al salir
         window.addEventListener('beforeunload', () => {
             if (isMusicPlaying) {
                 audioFondo.pause();
