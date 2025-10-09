@@ -682,7 +682,7 @@
             wildcardDisplay.textContent = wildcards;
             saveGameData();
             
-            showFeedback("0„3Comod¨ªn Activo!", 'match');
+            showFeedback("¡comodín Activo!", 'match');
 
             // 2. Encontrar dos cartas no emparejadas con el mismo simbolo
             const allUnmatchedCards = Array.from(gameBoard.querySelectorAll('.card:not(.matched)'));
@@ -791,7 +791,7 @@
             const currentPairsCount = Math.min(5 + (level - 1), MAX_PAIRS);
             
             if (currentPairsCount === MAX_PAIRS) {
-                levelMessage = `0„3M¨¢xima Dificultad! (56 cartas)`;
+                levelMessage = `¡Máxima Dificultad! (56 cartas)`;
             } else {
                 levelMessage = `Preparando Nivel ${level} (${currentPairsCount} pares)...`;
             }
@@ -801,7 +801,7 @@
                 
                 <h2>¡Nivel ${oldLevel} Completado!</h2>
                 <p>Puntuación actual: **${score}**</p>
-                <p>¡Has ganado 1 Comod¨ªn! Tienes **${wildcards}**.</p>
+                <p>¡Has ganado 1 Comodín! Tienes **${wildcards}**.</p>
                 <p style="font-size: 1.8rem; font-weight: bold; color: #ffeb3b; margin-top: 20px;">
                     ${levelMessage}
                 </p>
@@ -841,7 +841,7 @@
             initGame();
             
             if (isMusicPlaying) {
-                 audioFondo.play().catch(e => console.warn("Autoplay bloqueado. El usuario debe interactuar para que inicie la m¡§0…5sica.", e));
+                 audioFondo.play().catch(e => console.warn("Autoplay bloqueado. El usuario debe interactuar para que inicie la música.", e));
             }
         });
         
