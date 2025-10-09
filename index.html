@@ -335,13 +335,13 @@
         </div>
 
         <div class="controls">
-            <button id="wildcard-btn" onclick="useWildcard()">7¿8 Usar Comod¨ªn</button> 
-            <button onclick="window.location.href='canje.html'">”9Ã6 Canjear Premios</button>
+            <button id="wildcard-btn" onclick="useWildcard()">✨ Usar Comodín</button> 
+            <button onclick="window.location.href='canje.html'">🏆 Canjear Premios</button>
         </div>
     </div>
 
   <div style="margin-top: 30px; font-size: 0.9rem;">
-    <a href="privacidad.html" style="color: #ffeb3b; text-decoration: none;">Pol¨ªticas de Privacidad</a>
+    <a href="privacidad.html" style="color: #ffeb3b; text-decoration: none;">Políticas de Privacidad</a>
 </div>
 
     
@@ -403,23 +403,23 @@
         }
 
         /**
-         * Alterna la reproducci¨®n de la m¨²sica de fondo y actualiza el ¡§0„9cono del bot¨®n.
+         * Alterna la reproducción de la música de fondo y actualiza el ¡§0„9cono del bot¨®n.
          */
         function toggleBackgroundMusic() {
             if (isMusicPlaying) {
                 audioFondo.pause();
-                toggleMusicBtn.textContent = '”9ã8'; 
+                toggleMusicBtn.textContent = '🔈'; 
             } else {
                 audioFondo.volume = 0.4; 
                 audioFondo.play().catch(e => console.warn("Error al iniciar la m¡§0…5sica de fondo:", e));
-                toggleMusicBtn.textContent = '”9ä0'; 
+                toggleMusicBtn.textContent = '🔊'; 
             }
             isMusicPlaying = !isMusicPlaying; 
             localStorage.setItem('memoryGameMusicState', isMusicPlaying); 
         }
 
         /**
-         * Aplica un efecto de "moneda" a la puntuaci¨®n al ganar un punto.
+         * Aplica un efecto de "moneda" a la puntuación al ganar un punto.
          */
         function animateScoreGain() {
             scoreValueElement.classList.add('score-boost');
@@ -488,11 +488,11 @@
             if (savedMusicState === 'true') {
                 isMusicPlaying = true;
                 audioFondo.volume = 0.4;
-                toggleMusicBtn.textContent = '¡±”9ä0';
+                toggleMusicBtn.textContent = '🔊';
             } else {
                 isMusicPlaying = false;
                 audioFondo.pause();
-                toggleMusicBtn.textContent = '”9ã8';
+                toggleMusicBtn.textContent = '🔈';
             }
         }
 
@@ -536,7 +536,7 @@
             
             attemptsDisplay.textContent = attempts;
             
-            // --- Logica de Selecci¨®n de S¨ªmbolos ---
+            // --- Logica de Selección de Símbolos ---
             let levelSymbols;
             const currentMaxPairs = Math.min(5 + (level - 1), MAX_PAIRS);
 
@@ -588,7 +588,7 @@
                 gameBoard.insertBefore(card, levelOverlay);
             });
             
-            // Habilitar/Deshabilitar bot¨®n de comod¨ªn al inicio
+            // Habilitar/Deshabilitar botón de comodín al inicio
             wildcardBtn.disabled = (wildcards <= 0);
         }
         
@@ -664,7 +664,7 @@
         }
         
         /**
-         * Activa un comod¨ªn para revelar y emparejar dos cartas no coincidentes.
+         * Activa un comodín para revelar y emparejar dos cartas no coincidentes.
          */
         function useWildcard() {
             if (wildcards <= 0 || !canFlip) {
@@ -677,14 +677,14 @@
             canFlip = false;
             wildcardBtn.disabled = true;
 
-            // 1. Deducir un comod¨ªn 
+            // 1. Deducir un comodín 
             wildcards--;
             wildcardDisplay.textContent = wildcards;
             saveGameData();
             
             showFeedback("0„3Comod¨ªn Activo!", 'match');
 
-            // 2. Encontrar dos cartas no emparejadas con el mismo s¨ªmbolo 
+            // 2. Encontrar dos cartas no emparejadas con el mismo simbolo
             const allUnmatchedCards = Array.from(gameBoard.querySelectorAll('.card:not(.matched)'));
             
             if (allUnmatchedCards.length < 2) {
@@ -707,13 +707,13 @@
             }
             
             if (!card1 || !card2) {
-                console.error("No se pudo encontrar una pareja con el comod¨ªn.");
+                console.error("No se pudo encontrar una pareja con el comodín.");
                 canFlip = true;
                 wildcardBtn.disabled = (wildcards <= 0);
                 return;
             }
 
-            // 3. Simular el volteo y emparejamiento con animaci¨®n 
+            // 3. Simular el volteo y emparejamiento con animación 
             
             card1.querySelector('.card-inner').classList.add('flipped');
             card2.querySelector('.card-inner').classList.add('flipped');
@@ -738,7 +738,7 @@
                 animateScoreGain();
                 saveGameData();
 
-                // Revisar si se termin¨® el nivel
+                // Revisar si se terminana el nivel
                 const currentPairsCount = Math.min(5 + (level - 1), MAX_PAIRS);
                 if (matchedPairs === currentPairsCount) {
                     setTimeout(levelUp, 800);
@@ -767,7 +767,7 @@
             
             level++;
             
-            // Recompensa de Comod¨ªn 
+            // Recompensa de Comodin
             wildcards++; 
             wildcardDisplay.textContent = wildcards;
 
@@ -799,9 +799,9 @@
             levelUpScreen.innerHTML = `
                 <span class="brain-icon" style="margin-bottom: 20px;">•0á8</span>
                 
-                <h2>0„3Nivel ${oldLevel} Completado!</h2>
-                <p>Puntuaci¨®n actual: **${score}**</p>
-                <p>0„3Has ganado 1 Comod¨ªn! Tienes **${wildcards}**.</p>
+                <h2>¡Nivel ${oldLevel} Completado!</h2>
+                <p>Puntuación actual: **${score}**</p>
+                <p>¡Has ganado 1 Comod¨ªn! Tienes **${wildcards}**.</p>
                 <p style="font-size: 1.8rem; font-weight: bold; color: #ffeb3b; margin-top: 20px;">
                     ${levelMessage}
                 </p>
@@ -832,7 +832,7 @@
         // === INICIO DEL JUEGO Y EVENT LISTENERS ===
         // ====================================================================
 
-        // Evento para el bot¨®n de alternancia de m¨²sica 
+        // Evento para el botón de alternancia de musiy
         toggleMusicBtn.addEventListener('click', toggleBackgroundMusic);
 
         // Proceso de inicio
@@ -845,7 +845,7 @@
             }
         });
         
-        // Evento para guardar el estado de la m¨²sica al salir
+        // Evento para guardar el estado de la música al salir
         window.addEventListener('beforeunload', () => {
             if (isMusicPlaying) {
                 audioFondo.pause();
