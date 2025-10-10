@@ -21,7 +21,7 @@
             --accent-color: #ff4081; /* Usado para botones y progreso */
             --match-color: #4caf50;
             --wildcard-color: #ff9800;
-            --control-color: #ffeb3b; /* NUEVO: Color unificado para botones de control */
+            --control-color: #ffeb3b; /* Color unificado para botones de control */
         }
 
         * {
@@ -123,14 +123,14 @@
             background-color: rgba(255, 255, 255, 0.1);
             border-radius: 10px;
             position: relative;
-            /* NUEVO: Borde LED dinámico */
+            /* Borde LED dinámico */
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.5), 
                         0 0 20px var(--primary-color), 
                         0 0 30px var(--secondary-color);
             animation: led-border 4s infinite alternate; 
         }
 
-        /* NUEVO: Animación del Borde LED */
+        /* Animación del Borde LED */
         @keyframes led-border {
             0% { box-shadow: 0 0 10px rgba(0, 0, 0, 0.5), 0 0 20px var(--primary-color), 0 0 30px var(--secondary-color); }
             50% { box-shadow: 0 0 10px rgba(0, 0, 0, 0.5), 0 0 20px var(--accent-color), 0 0 30px var(--wildcard-color); }
@@ -212,7 +212,7 @@
         }
         
         .controls button {
-            color: #1a237e; /* Color de texto más oscuro para contrastar con el amarillo */
+            color: #1a237e;
             border: none;
             padding: 12px 25px;
             font-size: 1rem;
@@ -222,22 +222,22 @@
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
             font-weight: bold;
             margin: 0; 
-            background-color: var(--control-color); /* Color unificado */
+            background-color: var(--control-color);
         }
         
-        /* === ESTILOS DINÁMICOS DEL BOTÓN COMODÍN (MEJORADO) === */
+        /* === ESTILOS DINÁMICOS DEL BOTÓN COMODÍN === */
         .controls button#wildcard-btn {
             min-width: 160px;
         }
         
         .controls button#wildcard-btn.active {
-            background-color: var(--wildcard-color); /* Naranja/Esperando */
+            background-color: var(--wildcard-color);
             box-shadow: 0 0 15px var(--wildcard-color);
             color: white;
         }
         
         .controls button:hover:not(:disabled) {
-            background-color: #ffc107; /* Tonalidad diferente de amarillo */
+            background-color: #ffc107;
             transform: translateY(-2px);
         }
         
@@ -347,9 +347,8 @@
                 font-size: 1.3rem;
             }
             
-            /* AJUSTE PARA MANTENER LOS CONTROLES HORIZONTALES */
             .controls {
-                flex-direction: row; /* Asegura la alineación horizontal */
+                flex-direction: row;
                 flex-wrap: wrap; 
                 gap: 10px;
             }
@@ -366,12 +365,14 @@
 
     <audio id="audioFondo" src="fondo.mp3" loop></audio> 
     <audio id="audioClick" src="primero.mp3"></audio> 
-    <audio id="audioLevelUp" src="nivel.mp3"></audio> <div class="audio-control">
-        <button id="toggle-music-btn">🔊 </button>
+    <audio id="audioLevelUp" src="nivel.mp3"></audio> 
+    
+    <div class="audio-control">
+        <button id="toggle-music-btn">🔊</button>
     </div>
 
     <div class="container">
-        <h2>Memory Game</h2>
+        <h2>Ascenso Mental</h2>
         
         <div class="stats">
             <div class="stat-box">
@@ -390,7 +391,7 @@
                 <div class="stat-label">Comodines</div>
                 <div class="stat-value" id="wildcards">0</div>
             </div>
-            </div>
+        </div>
         
         <div class="progress-bar-container">
             <div id="level-progress" class="progress-bar"></div>
@@ -400,16 +401,11 @@
              </div>
 
         <div class="controls">
-            <button id="wildcard-btn" onclick="useWildcard()">🏅 Usar Comodín</button> 
+            <button id="wildcard-btn" onclick="useWildcard()">⭐ Usar Comodín</button> 
             <button onclick="window.location.href='canje.html'">🏆 Canjear Premios</button>
         </div>
     </div>
 
-  <div style="margin-top: 30px; font-size: 0.9rem;">
-    <a href="privacidad.html" style="color: var(--control-color); text-decoration: none;">Políticas de Privacidad</a>
-</div>
-
-    
     <script>
         // ====================================================================
         // === CONFIGURACIÓN Y VARIABLES ===
@@ -428,7 +424,7 @@
         // AUDIO ELEMENTS
         const audioFondo = document.getElementById('audioFondo');
         const audioClick = document.getElementById('audioClick');
-        const audioLevelUp = document.getElementById('audioLevelUp'); // NUEVO: Audio de subida de nivel
+        const audioLevelUp = document.getElementById('audioLevelUp');
         const toggleMusicBtn = document.getElementById('toggle-music-btn');
         let isMusicPlaying = false; 
         
@@ -599,7 +595,7 @@
                 wildcardBtn.textContent = '⏳ Comodín Activo'; 
             } else if (wildcards > 0) {
                 wildcardBtn.disabled = false;
-                wildcardBtn.textContent = '🧡 Usar Comodín'; 
+                wildcardBtn.textContent = '🧡 Usar Comodín'; // CAMBIO: Icono en estado activo
             } else {
                 wildcardBtn.disabled = true;
                 wildcardBtn.textContent = '🚫 Sin Comodines'; 
@@ -610,11 +606,6 @@
         // === LOGICA DEL JUEGO ===
         // ====================================================================
         
-        /**
-         * Maneja la actualización de la puntuación, asegurando que el display
-         * y el almacenamiento se mantengan sincronizados, y activa la animación.
-         * @param {number} points - Puntos a añadir (puede ser positivo o negativo).
-         */
         function updateScore(points) {
             score += points;
             animateScoreGain();
@@ -634,25 +625,21 @@
             const pairsCount = Math.min(5 + (level - 1), MAX_PAIRS); 
             totalPairsInLevel = pairsCount; 
             
-            // Recalcula matchedPairs basado en los datos guardados, si existen.
             matchedPairs = matchedCardIndices.length / 2;
             const totalCards = pairsCount * 2;
             
             updateStatsDisplays(); 
 
             if (matchedPairs === pairsCount) {
-                // Si ya estaba completado al cargar, subir de nivel sin pantalla.
                 levelUp(false); 
                 return;
             }
 
-            // Lógica para reiniciar intentos y layout si el nivel o el layout guardado es diferente.
             let currentLayout = JSON.parse(localStorage.getItem('memoryCardLayout'));
             
             if (currentLayout === null || currentLayout.length !== totalCards) {
-                 attempts = 0; // Reinicia intentos para un nuevo layout/nivel
+                 attempts = 0;
                  
-                 // --- Lógica de Selección de Símbolos ---
                  let levelSymbols;
                  const currentMaxPairs = Math.min(5 + (level - 1), MAX_PAIRS);
 
@@ -670,24 +657,44 @@
                  localStorage.setItem('memoryCardLayout', JSON.stringify(currentLayout));
                  matchedCardIndices = [];
                  saveGameData();
+                 
+                 // CAMBIO: Activa el Vistazo Rápido solo si es un nuevo nivel
+                 if (currentLayout.length === totalCards && matchedPairs === 0) {
+                     canFlip = false; // Desactiva el click temporalmente
+                     renderCards(currentLayout, totalCards, true); // Renderiza y hace el Vistazo
+                     return; // Detiene la ejecución aquí, la función 'renderCards' reanudará el juego
+                 }
             }
 
             attemptsDisplay.textContent = attempts;
 
+            renderCards(currentLayout, totalCards, false);
+            
+        }
+
+        /**
+         * Renderiza las cartas en el tablero.
+         * @param {Array} layout - El array de símbolos para las cartas.
+         * @param {number} totalCards - El número total de cartas.
+         * @param {boolean} quickLook - Indica si se debe activar el "Vistazo Rápido" al inicio.
+         */
+        function renderCards(layout, totalCards, quickLook) {
+             // 1. Configura el Grid
             const columns = Math.min(Math.ceil(Math.sqrt(totalCards)), 8);
             gameBoard.style.gridTemplateColumns = `repeat(${columns}, 1fr)`;
-            
-            // Renderiza las cartas
-            currentLayout.forEach((symbol, index) => {
+
+            // 2. Crea los elementos HTML
+            layout.forEach((symbol, index) => {
                 const card = document.createElement('div');
                 card.classList.add('card');
                 card.dataset.symbol = symbol;
                 card.dataset.index = index; 
                 
                 const isMatched = matchedCardIndices.includes(index);
+                const isFlipped = isMatched || quickLook; // Si hay Vistazo Rápido, voltear todas
 
                 card.innerHTML = `
-                    <div class="card-inner ${isMatched ? 'flipped' : ''}">
+                    <div class="card-inner ${isFlipped ? 'flipped' : ''}">
                         <div class="card-front">?</div>
                         <div class="card-back">${symbol}</div>
                     </div>
@@ -696,13 +703,34 @@
                 if (isMatched) {
                     card.classList.add('matched');
                 } else {
-                    card.addEventListener('click', () => flipCard(card));
+                    // Inicialmente no adjuntamos el listener si hay quickLook
+                    if (!quickLook) {
+                        card.addEventListener('click', () => flipCard(card));
+                    }
                 }
                 
                 gameBoard.appendChild(card);
             });
             
-            updateComodinButtonAppearance();
+            // 3. Ejecuta el Vistazo Rápido
+            if (quickLook) {
+                setTimeout(() => {
+                    const allCards = gameBoard.querySelectorAll('.card');
+                    allCards.forEach(card => {
+                        // Vuelve a voltear la carta
+                        card.querySelector('.card-inner').classList.remove('flipped');
+                        
+                        // Añade el listener de click
+                        card.addEventListener('click', () => flipCard(card));
+                    });
+                    canFlip = true; // Permite el juego
+                    updateComodinButtonAppearance();
+
+                }, 1500); // Duración del vistazo: 1.5 segundos
+            } else {
+                canFlip = true; // Permite el juego si no hay quickLook
+                updateComodinButtonAppearance();
+            }
         }
         
         function flipCard(card) {
@@ -728,23 +756,21 @@
 
                 if (cardA.dataset.symbol === cardB.dataset.symbol) {
                     // Coinciden (Pareja)
+                    // ... (Lógica de coincidencia existente)
                     setTimeout(() => {
                         
                         showFeedback("¡Pareja!", 'match'); 
                         
-                        // Añadir estilos de emparejamiento
                         cardA.classList.add('matched');
                         cardB.classList.add('matched');
                         
-                        // Registrar índices de emparejamiento
                         matchedCardIndices.push(parseInt(cardA.dataset.index));
                         matchedCardIndices.push(parseInt(cardB.dataset.index));
                         
                         matchedPairs++;
                         
-                        updateScore(1); // Usando la función auxiliar
+                        updateScore(1); 
                         
-                        // Deshabilitar click
                         cardA.removeEventListener('click', flipCard);
                         cardB.removeEventListener('click', flipCard);
                         
@@ -774,9 +800,6 @@
             }
         }
         
-        /**
-         * Activa un comodín para revelar y emparejar dos cartas no coincidentes.
-         */
         function useWildcard() {
             if (wildcards <= 0 || !canFlip || wildcardActive) {
                 return;
@@ -788,19 +811,15 @@
 
             showFeedback("¡Comodín Activo!", 'match');
 
-            // 1. Encontrar dos cartas no emparejadas con el mismo simbolo
             const allUnmatchedCards = Array.from(gameBoard.querySelectorAll('.card:not(.matched)'));
             
             if (allUnmatchedCards.length < 2) {
-                // No hay suficientes cartas para usar el comodín.
-                console.warn("No quedan suficientes cartas para usar el comodín.");
                 canFlip = true;
                 wildcardActive = false;
                 updateComodinButtonAppearance();
                 return;
             }
 
-            // Selecciona el primer par que encuentre
             let card1 = null;
             let card2 = null;
 
@@ -814,14 +833,13 @@
             }
             
             if (!card1 || !card2) {
-                 // Esto no debería pasar si allUnmatchedCards.length >= 2, pero como seguridad.
                  canFlip = true;
                  wildcardActive = false;
                  updateComodinButtonAppearance();
                  return;
             }
 
-            // 2. Simular el volteo y emparejamiento con animación 
+            // Simular el volteo
             card1.querySelector('.card-inner').classList.add('flipped');
             card2.querySelector('.card-inner').classList.add('flipped');
 
@@ -830,29 +848,25 @@
                 card1.classList.add('matched');
                 card2.classList.add('matched');
 
-                // Eliminar el event listener (ya que están emparejadas)
                 card1.removeEventListener('click', flipCard);
                 card2.removeEventListener('click', flipCard);
                 
-                // Actualizar datos del juego
                 matchedCardIndices.push(parseInt(card1.dataset.index));
                 matchedCardIndices.push(parseInt(card2.dataset.index));
 
                 matchedPairs++;
                 
-                updateScore(2); // Puntuación extra por comodín
+                updateScore(2);
                 wildcards--;
-                saveGameData(); // Guardar el nuevo número de comodines
+                saveGameData();
                 
-                // Finalizar el uso del comodín
                 wildcardActive = false; 
 
-                // Revisar si se terminana el nivel
                 if (matchedPairs === totalPairsInLevel) {
                     setTimeout(levelUp, 800);
                 } else {
                     canFlip = true; 
-                    updateStatsDisplays(); // Actualiza comodines y progreso
+                    updateStatsDisplays();
                 }
             }, 1200);
         }
@@ -860,11 +874,10 @@
         
         function levelUp(showScreen = true) {
             
-            playSoundLevelUp(); // REPRODUCE el audio de subida de nivel
+            playSoundLevelUp();
             
             const oldLevel = level;
             
-            // Seguimiento GA4
             if (typeof gtag === 'function') {
                 gtag('event', 'level_up', {
                     'level': oldLevel,
@@ -878,7 +891,6 @@
             
             level++;
             
-            // Recompensa de Comodin
             wildcards++; 
 
             matchedCardIndices = [];
@@ -922,8 +934,8 @@
                 if(document.body.contains(levelUpScreen)){
                     document.body.removeChild(levelUpScreen);
                 }
-                canFlip = true;
-                initGame();
+                // CAMBIO: initGame llamará a renderCards con quickLook = true para el vistazo.
+                initGame(); 
             }, 2500);
         }
         
