@@ -70,10 +70,13 @@
             flex-direction: column;
         }
         
+        /* === ESTILO MODIFICADO PARA ÍCONOS === */
         .stat-label {
-            font-size: 0.8rem;
+            font-size: 1.5rem; /* Aumenta el tamaño para el emoji */
             margin-bottom: 3px;
+            line-height: 1; /* Centra el emoji */
         }
+        /* ==================================== */
         
         .stat-value {
             font-size: 1.4rem;
@@ -336,7 +339,7 @@
                 padding: 8px;
             }
             .stat-label {
-                font-size: 0.7rem;
+                font-size: 1.2rem; /* Ajuste para móviles */
             }
             .stat-value {
                 font-size: 1.2rem;
@@ -376,20 +379,16 @@
         
         <div class="stats">
             <div class="stat-box">
-                <div class="stat-label">Nivel</div>
-                <div class="stat-value" id="level">1</div>
+                <div class="stat-label">🧠</div> <div class="stat-value" id="level">1</div>
             </div>
             <div class="stat-box">
-                <div class="stat-label">Puntuación</div>
-                <div class="stat-value" id="score">0</div>
+                <div class="stat-label">✨</div> <div class="stat-value" id="score">0</div>
             </div>
             <div class="stat-box">
-                <div class="stat-label">Intentos</div>
-                <div class="stat-value" id="attempts">0</div>
+                <div class="stat-label">🎯</div> <div class="stat-value" id="attempts">0</div>
             </div>
             <div class="stat-box">
-                <div class="stat-label">Comodines</div>
-                <div class="stat-value" id="wildcards">0</div>
+                <div class="stat-label">⭐</div> <div class="stat-value" id="wildcards">0</div>
             </div>
         </div>
         
